@@ -112,10 +112,10 @@ export class LoginPage {
 
     if (passwordField.type === 'password') {
       passwordField.type = 'text';
-      togglerImg.src = '/imgs/privacyDisabled.png';
+      togglerImg.src = '/assets/imgs/privacyDisabled.png';
     } else {
       passwordField.type = 'password';
-      togglerImg.src = '/imgs/privacyEnabled.png';
+      togglerImg.src = '/assets/imgs/privacyEnabled.png';
     }
   }
 }
