@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <select id="languageSelect" [(ngModel)]="selectedLanguage" class="language-select">
+        <option value="none" disabled>-- Language --</option>
+        <option value="en">English</option>
+        <option value="es">Spanish</option>
+      </select>
+    </ion-buttons>
+
+    <a class="logo" routerLink="">
+      <ion-img src="../../assets/imgs/logo.png"></ion-img>
+    </a>
+
+    <ion-buttons slot="end" class="icons">
+      <a routerLink="">
+        <ion-img src="../../assets/imgs/carrito.webp"></ion-img>
+      </a>
+      <a routerLink="">
+        <ion-img src="../../assets/imgs/log_in_icon.png"></ion-img>
+      </a>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>

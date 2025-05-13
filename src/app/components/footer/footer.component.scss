@@ -1,0 +1,67 @@
+.footer {
+  background: linear-gradient(to right, #f30202, #0101fd);
+  padding: 0.4rem 0;
+  margin: 2rem 0 0 0;
+  width: 100%;
+  height: auto;
+  text-align: center;
+  color: white;
+  font-size: 2rem;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.icons {
+  width: auto;
+  height: 3rem;
+}
+
+.aboutUs__link {
+  display: flex;
+  place-self: center;
+  width: 100%;
+  text-decoration: none;
+  color: white;
+}
+
+.aboutUs__link-container {
+  display: flex;
+  place-items: center;
+  gap: 2rem;
+}
+
+.aboutUs__link-container p {
+  margin: 0;
+  font-weight: bolder;
+  font-style: italic;
+  transition: color 0.3s ease;
+  text-decoration: none;
+  font-size: 2rem;
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.aboutUs__link:visited,
+.aboutUs__link:active,
+.aboutUs__link:hover {
+  text-decoration: none;
+  color: white;
+}
+
+.aboutUs__link-container img {
+  width: 4rem;
+  height: 4rem;
+  transition: transform 0.3s ease;
+}
+
+.aboutUs__link-container:hover p {
+  color: #ffcc00;
+  cursor: pointer;
+}
+
+.aboutUs__link-container:hover img {
+  transform: scale(1.2);
+}

@@ -14,4 +14,10 @@ export const routes: Routes = [
     path: 'advanced-search',
     loadComponent: () => import('./pages/advanced-search/landing-page.page').then(m => m.LandingPagePage)
   },
+
+  {
+    path: 'login',
+    loadComponent: () => import('./pages/login-page/login-page.page').then( m => m.LoginPage)
+  },
+
 ];
