@@ -1,0 +1,14 @@
+<div class="developer-card">
+  <div class="card">
+    <img
+      [src]="developerImage"
+      [alt]="developerName"
+      class="developer-image"
+    >
+    <div class="member-info">
+      <h3>{{ developerName }}</h3>
+      <p class="member-job">{{ developerOccupation }}</p>
+      <p><a [href]="'mailto:' + developerMail">{{ developerMail }}</a></p>
+    </div>
+  </div>
+</div>

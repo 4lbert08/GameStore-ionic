@@ -39,11 +39,20 @@
 /* You can add global styles to this file, and also import other style files */
 @import url("./assets/fonts.css");
 
-body {
-  background: #272727;
+/* Estilos globales */
+html, body {
+  background: #272727 !important;
   box-sizing: border-box;
-  font-family: Genos, sans-serif;
+  font-family: 'Genos', sans-serif !important;
   width: 100%;
   padding: 0;
-  /*margin: 7rem 0 5rem 0;*/
+}
+
+ion-content {
+  --ion-font-family: "Genos", "sans-serif" !important;
+  --background: #272727;
+  --padding-top: 7rem;
+  --padding-bottom: 5rem;
+  --padding-start: 0;
+  --padding-end: 0;
 }
