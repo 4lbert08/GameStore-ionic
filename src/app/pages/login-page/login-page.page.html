@@ -1,0 +1,85 @@
+
+
+<ion-content class="container-fluid" >
+  <ion-grid>
+    <ion-row class="ion-justify-content-center">
+      <ion-col size="4" size-md="6" size-xl="6">
+        <div class="Top">
+          <div class="Top__Logo">
+           <img routerLink="" style="cursor: pointer" class="Top__Logo__LogoImg"
+                 src="/assets/imgs/logo.png" alt="Logo">
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row class="ion-justify-content-center">
+      <ion-col size="10" size-md="10" size-xl="6">
+        <h1>Iniciar Sesión</h1>
+
+        <div class="loginDiv__LoginBox">
+          <div *ngIf="formErrors.general" class="alert alert-danger" role="alert">
+            {{ formErrors.general }}
+          </div>
+
+          <form id="loginDiv__Form" (ngSubmit)="onSubmit()" novalidate>
+            <div class="PartDiv">
+              <label for="EmailField">Email del usuario</label>
+              <ion-input
+                type="email"
+                id="EmailField"
+                name="email"
+                placeholder="Email address"
+                required
+                [(ngModel)]="email"
+                [ngClass]="{'is-invalid': formErrors.email}"
+              ></ion-input>
+              <div *ngIf="formErrors.email" class="invalid-feedback d-block">
+                {{ formErrors.email }}
+              </div>
+            </div>
+
+            <div class="loginDiv__PartDiv">
+              <label for="PasswordField">Contraseña del usuario</label>
+              <div class="passwordContainer">
+                <ion-input
+                  type="password"
+                  id="PasswordField"
+                  placeholder="Password"
+                  name="password"
+                  required
+                  [(ngModel)]="password"
+                  [ngClass]="{'is-invalid': formErrors.password}"
+                ></ion-input>
+                <img
+                  id="privacyToggler"
+                  src="/assets/imgs/privacyEnabled.png"
+                  width="32"
+                  height="32"
+                  alt="Mostrar/ocultar contraseña"
+                  (click)="togglePasswordVisibility()"
+                  style="cursor: pointer"
+                >
+              </div>
+              <div *ngIf="formErrors.password" class="invalid-feedback d-block">
+                {{ formErrors.password }}
+              </div>
+              <a routerLink="/forgotPassword">¿Has olvidado tu contraseña?</a>
+            </div>
+
+            <div class="loginDiv__submit">
+              <a routerLink="/signUp"><b>Registrarse</b></a>
+              <ion-button
+                class="LoginButton"
+                type="submit"
+                [disabled]="isLoading"
+              >
+                <ion-spinner *ngIf="isLoading" name="crescent" class="me-1"></ion-spinner>
+                {{ isLoading ? 'Cargando...' : 'Log in' }}
+              </ion-button>
+            </div>
+          </form>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
