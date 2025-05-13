@@ -1,0 +1,7 @@
+{
+  "name": "GameStore-ionic",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}

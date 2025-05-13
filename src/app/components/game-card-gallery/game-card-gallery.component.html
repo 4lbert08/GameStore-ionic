@@ -1,0 +1,18 @@
+<section class="gallery-container" data-gallery>
+  <div class="gallery">
+    <app-game-card
+      *ngFor="let game of paginatedGames; let i = index;"
+      [gameId]="game.id"
+      [gameCover]="game.gameCover"
+      [gameName]="game.name"
+      [gamePrice]="game.amount + ' ' + game.currency"
+    />
+  </div>
+
+  <div class="pagination">
+    <ion-button id="prevPage" (click)="prevPage()" [disabled]="currentPage === 1">◁</ion-button>
+    <span id="pageNumber">{{ currentPage }} of {{ totalPages }}</span>
+    <ion-button id="nextPage" (click)="nextPage()" [disabled]="currentPage === totalPages">▷</ion-button>
+  </div>
+</section>
+

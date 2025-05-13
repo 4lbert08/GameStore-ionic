@@ -1,0 +1,18 @@
+<section class="gallery-container" data-gallery>
+  <div class="title">
+    <h2>{{ title }}</h2>
+    <ion-button (click)="navigateToViewMore()">SEE MORE</ion-button>
+  </div>
+
+  <div class="gallery">
+    <app-game-card
+      *ngFor="let game of games?.slice(0, 5); let i = index"
+      [gameId]="game.id"
+      [gameName]="game.name"
+      [gameCover]="game.gameCover"
+      [gamePrice]="game.amount + ' ' + game.currency"
+      id="card{{i+1}}"
+      class="card__game"
+    />
+  </div>
+</section>

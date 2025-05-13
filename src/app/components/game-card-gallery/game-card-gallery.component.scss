@@ -1,0 +1,80 @@
+.gallery-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(12.5rem, 1fr));
+  gap: 1.25rem;
+  width: 100%;
+  max-width: 75rem;
+  padding: 1.25rem;
+}
+
+.cart__game {
+  background: #1e1e1e;
+  border-radius: 0.625rem;
+  box-shadow: 0 0.25rem 0.375rem rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease-in-out;
+}
+
+.cart__game:hover {
+  transform: scale(1.05);
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1.25rem;
+}
+
+.pagination ion-button {
+  --background: #7121cd;
+  --color: #fff;
+  --border: none;
+  --padding-start: 0.9375rem;
+  --padding-end: 0.9375rem;
+  --padding-top: 0.625rem;
+  --padding-bottom: 0.625rem;
+  --border-radius: 0.3125rem;
+  font-size: 1.125rem;
+}
+
+.pagination ion-button:hover {
+  --background: #511298;
+}
+
+#pageNumber {
+  font-size: 1.125rem;
+  font-weight: bold;
+  margin: 0 0.625rem;
+  color: #fff;
+}
+
+@media (max-width: 900px) {
+  .gallery {
+    grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .gallery {
+    grid-template-columns: repeat(auto-fill, minmax(8rem, 1fr));
+    gap: 0.75rem;
+  }
+
+  .pagination ion-button {
+    --padding-start: 0.75rem;
+    --padding-end: 0.75rem;
+    font-size: 1rem;
+  }
+
+  #pageNumber {
+    font-size: 1rem;
+  }
+}

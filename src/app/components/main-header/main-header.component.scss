@@ -1,0 +1,237 @@
+
+.mainHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(to right, #f30202, #0101fd);
+  padding: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.mainHeader__select-container {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1rem;
+  margin: auto;
+}
+
+ion-select {
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+  max-width: 150px;
+  background: white;
+}
+
+.mainHeader__search-bar {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+  justify-content: center;
+  margin: 0.5rem 0;
+}
+
+.mainHeader__search-bar form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+  margin: 0;
+}
+
+.mainHeader__search-bar ion-input {
+  width: 50%;
+  min-width: 10rem;
+  background: white;
+  --padding-start: 0.5rem;
+  --padding-end: 0.5rem;
+  border: 1px solid #555;
+  border-radius: 15px;
+  transition: width 0.3s ease-in-out;
+}
+
+.mainHeader__search-bar ion-input:focus-within {
+  width: 90%;
+  border-color: #093968;
+  font-size: 1.25rem;
+}
+
+.mainHeader__search-bar ion-input::part(placeholder) {
+  font-size: 1rem;
+}
+
+.mainHeader__search-bar__search-icon {
+  display: none;
+  width: 2.5rem;
+  height: 2.5rem;
+  --background: #f76786;
+  --border: 0.1875rem solid #ff0000;
+  --border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.2s ease, --background 0.3s ease;
+}
+
+.mainHeader__search-bar__search-icon:hover {
+  transform: scale(1.1);
+  --background: #f42854;
+}
+
+.mainHeader__search-bar__search-icon img {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.mainHeader__advanced-search {
+  margin-left: 1rem;
+  --background: #F76786;
+  --padding-start: 1rem;
+  --padding-end: 1rem;
+  --border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
+  --border: solid 3px #ff0000;
+  --color: white;
+}
+
+.mainHeader__advanced-search:hover {
+  --background: #F42854;
+  transition: transform 0.05s ease;
+  transform: scale(1.05);
+}
+
+.mainHeader__logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 5rem;
+}
+
+.mainHeader__logo img {
+  height: 5rem;
+  transition: transform 0.3s ease;
+}
+
+.mainHeader__logo:hover {
+  background-color: #1E1EBF;
+  transform: scale(1.15);
+  border-radius: 50px;
+}
+
+.mainHeader__icons {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding-right: 1.5rem;
+}
+
+.mainHeader__icons img {
+  width: 3rem;
+  height: 3rem;
+  transition: transform 0.3s ease;
+}
+
+.mainHeader__icons img:hover {
+  transform: scale(1.1);
+}
+
+#logIcon {
+  border-radius: 25px;
+}
+
+@media screen and (min-width: 50rem) and (max-width: 68.75rem) {
+  .mainHeader {
+    padding: 0.5rem;
+    gap: 0.5rem;
+  }
+
+  .mainHeader > * {
+    min-width: 0;
+  }
+
+  .mainHeader__select-container,
+  .mainHeader__logo,
+  .mainHeader__icons {
+    margin: 0.5rem 1rem;
+    min-width: auto;
+  }
+
+  .mainHeader__logo img {
+    height: 4rem;
+  }
+
+  .mainHeader__search-bar {
+    margin: 0;
+  }
+
+  .mainHeader__search-bar form,
+  .mainHeader__search-bar__search-icon {
+    display: none;
+  }
+
+  .mainHeader__logo:hover {
+    background: #551eaf;
+  }
+}
+
+@media screen and (max-width: 50rem) {
+  .mainHeader {
+    padding: 0.25rem;
+    gap: 0.25rem;
+  }
+
+  .mainHeader > * {
+    min-width: 0;
+  }
+
+  .mainHeader__select-container {
+    margin: 0.25rem;
+  }
+
+  ion-select {
+    padding: 0.375rem;
+    font-size: 0.875rem;
+    width: 5rem;
+  }
+
+  .mainHeader__search-bar {
+    margin: 0.25rem;
+    max-width: 3rem;
+  }
+
+  .mainHeader__search-bar form,
+  .mainHeader__advanced-search {
+    display: none;
+  }
+
+  .mainHeader__search-bar__search-icon {
+    display: flex;
+  }
+
+  .mainHeader__logo {
+    margin: 0.25rem;
+  }
+
+  .mainHeader__logo img {
+    height: 3.5rem;
+  }
+
+  .mainHeader__logo:hover {
+    background: #6f1eaf;
+  }
+
+  .mainHeader__icons {
+    padding-right: 0.5rem;
+  }
+
+  .mainHeader__icons img {
+    width: 2rem;
+    height: 2rem;
+  }
+}

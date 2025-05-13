@@ -1,0 +1,56 @@
+<header>
+  <div class="mainHeader fixed-top">
+    <div class="mainHeader__select-container">
+      <ion-select id="languageSelect" [(ngModel)]="selectedLanguage" aria-label="Select language">
+        <ion-select-option value="none" disabled>-- Language --</ion-select-option>
+        <ion-select-option value="en">English</ion-select-option>
+        <ion-select-option value="es">Spanish</ion-select-option>
+      </ion-select>
+    </div>
+
+    <div class="mainHeader__search-bar">
+      <form (ngSubmit)="search()" #searchForm="ngForm">
+        <ion-input
+          type="text"
+          name="query"
+          placeholder="Search"
+          [(ngModel)]="searchQuery"
+          (ngModelChange)="onSearchQueryChange()"
+          aria-label="Search games"
+        ></ion-input>
+      </form>
+      <ion-button class="mainHeader__search-bar__search-icon" (click)="goToAdvancedSearch()" aria-label="Go to advanced search">
+        <img src="/assets/imgs/search-icon.webp" alt="Search Button" />
+      </ion-button>
+      <ion-button class="mainHeader__advanced-search" (click)="goToAdvancedSearch()" aria-label="Go to advanced search">
+        Advanced Search
+      </ion-button>
+    </div>
+
+    <div class="mainHeader__logo">
+      <a routerLink="/" aria-label="Home">
+        <img src="/assets/imgs/logo.png" alt="Logo"/>
+      </a>
+    </div>
+
+    <ng-container *ngIf="!user">
+      <div class="mainHeader__icons">
+        <a id="logLink" routerLink="/login" aria-label="Log in">
+          <img id="logIcon" src="/assets/imgs/log_in_icon.png" alt="User" />
+        </a>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="user">
+      <div class="mainHeader__icons">
+        <a id="cartLink" routerLink="/cart" aria-label="View cart">
+          <img id="cartIcon" src="/assets/imgs/carrito.webp" alt="Cart" />
+        </a>
+        <a id="userImage" routerLink="/userSettings" aria-label="User settings">
+          <img *ngIf="!userData?.avatar" src="/assets/imgs/default-profile.png" alt="User avatar"/>
+          <img *ngIf="userData?.avatar" [src]="userData?.avatar" alt="User avatar" style="border-radius: 50%" />
+        </a>
+      </div>
+    </ng-container>
+  </div>
+</header>
