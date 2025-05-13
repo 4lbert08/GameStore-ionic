@@ -1,0 +1,78 @@
+<ion-content>
+  <div class="main_container">
+    <div class="main">
+      <form class="search" id="advanced-search-form" (ngSubmit)="onSearchFormSubmit($event)">
+        <input type="text" class="search__bar" placeholder="Search by name" name="name" [value]="filters.searchTerm || ''">
+        <div class="search__filter-dropdowns">
+          <select class="filter-select" name="system">
+            <option value="" selected>System</option>
+            <option value="PC">PC</option>
+            <option value="PS4">PS4</option>
+            <option value="PS5">PS5</option>
+            <option value="Xbox Series X/S">Xbox Series X/S</option>
+            <option value="Switch">Switch</option>
+          </select>
+          <select class="filter-select" name="platform">
+            <option value="" selected>Platform</option>
+            <option value="steam">Steam</option>
+            <option value="playstation">PlayStation</option>
+            <option value="xbox">Xbox</option>
+            <option value="nintendo">Nintendo</option>
+          </select>
+          <select class="filter-select" name="genre">
+            <option value="" selected>Genre</option>
+            <option value="action">Action</option>
+            <option value="adventure">Adventure</option>
+            <option value="rpg">RPG</option>
+            <option value="simulation">Simulation</option>
+            <option value="sports">Sports</option>
+            <option value="puzzle">Puzzle</option>
+            <option value="party">Party</option>
+            <option value="platformer">Platformer</option>
+            <option value="shooter">Shooter</option>
+            <option value="strategy">Strategy</option>
+            <option value="open-world">Open World</option>
+            <option value="souls-like">Souls-like</option>
+            <option value="free-to-play">Free-to-Play</option>
+            <option value="multiplayer">Multiplayer</option>
+            <option value="indie">Indie</option>
+            <option value="casual">Casual</option>
+            <option value="relaxing">Relaxing</option>
+            <option value="metroidvania">Metroidvania</option>
+            <option value="narrative">Narrative</option>
+            <option value="cinematic">Cinematic</option>
+            <option value="third-person">Third-Person</option>
+            <option value="battle-royale">Battle Royale</option>
+            <option value="social-deduction">Social Deduction</option>
+            <option value="survival">Survival</option>
+            <option value="crafting">Crafting</option>
+            <option value="4X">4X</option>
+            <option value="historical">Historical</option>
+            <option value="turn-based">Turn-Based</option>
+          </select>
+          <select class="filter-select" name="pegi">
+            <option value="" selected>PEGI Rating</option>
+            <option value="3">PEGI 3</option>
+            <option value="7">PEGI 7</option>
+            <option value="12">PEGI 12</option>
+            <option value="16">PEGI 16</option>
+            <option value="18">PEGI 18</option>
+          </select>
+          <div class="stock-sector">
+            <label for="stock">In Stock</label>
+            <input type="checkbox" name="stock" id="stock" [checked]="filters.inStock">
+          </div>
+          <div class="filters-control">
+            <button type="submit" class="apply-filters-btn">Apply Filters</button>
+            <button type="button" class="clear-filters-btn" (click)="clearFilters()">Clear Filters</button>
+          </div>
+        </div>
+      </form>
+
+      <div class="container">
+        <app-game-card-gallery [games]="games" />
+      </div>
+    </div>
+  </div>
+</ion-content>
+

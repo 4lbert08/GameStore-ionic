@@ -4,13 +4,13 @@ import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
 
 @Component({
-  selector: 'app-advanced-search',
-  templateUrl: './landing-page.page.html',
-  styleUrls: ['./landing-page.page.scss'],
+  selector: 'app-about-us-page',
+  templateUrl: './about-us-page.page.html',
+  styleUrls: ['./about-us-page.page.scss'],
   standalone: true,
   imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
 })
-export class LandingPagePage implements OnInit {
+export class AboutUsPagePage implements OnInit {
 
   constructor() { }
 

@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
-    path: 'home',
+    path: '',
     loadComponent: () => import('./pages/home/home.page').then((m) => m.HomePage),
   },
   {
@@ -11,7 +11,18 @@ export const routes: Routes = [
     pathMatch: 'full',
   },
   {
-    path: 'advanced-search',
-    loadComponent: () => import('./pages/advanced-search/landing-page.page').then(m => m.LandingPagePage)
+    path: 'advanced-search-page',
+    loadComponent: () => import('./pages/advanced-search-page/advanced-search-page.page').then(m => m.AdvancedSearchPage)
   },
+  {
+    path: 'about-us-page',
+    loadComponent: () => import('./pages/about-us-page/about-us-page.page').then( m => m.AboutUsPagePage)
+  },
+  {
+    path: 'view-more-section-page',
+    loadComponent: () => import('./pages/view-more-section-page/view-more-section-page.page').then( m => m.ViewMoreSectionPage)
+  },
+  {
+  path: '**', redirectTo: '',
+  }
 ];
