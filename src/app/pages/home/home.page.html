@@ -1,1 +1,12 @@
-<app-main-header />
+<app-main-header></app-main-header>
+<ion-content>
+  <div class="main_container">
+    <div class="main">
+      <app-game-card-row
+        *ngFor="let section of sections.slice(0, 3); let i = index"
+        [title]="section.title"
+        [games]="section.games"
+      ></app-game-card-row>
+    </div>
+  </div>
+</ion-content>
