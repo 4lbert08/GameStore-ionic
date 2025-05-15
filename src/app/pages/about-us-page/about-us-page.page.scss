@@ -1,0 +1,143 @@
+.introduction {
+  background: linear-gradient(to right, #f30202, #0101fd);
+  color: #fff;
+  padding: 3.75rem 1.25rem;
+  text-align: center;
+  border-top: 0.125rem ridge #272727;
+}
+
+.aboutUs {
+  width: 90%;
+  max-width: 75rem;
+  margin: 1.25rem auto;
+  padding: 1.25rem;
+  background-color: white;
+  border-radius: 0.625rem;
+  box-shadow: 0 0.3125rem 0.9375rem rgba(0, 0, 0, 0.1);
+}
+
+.title {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 1.25rem;
+  color: #2c3e50;
+}
+
+.aboutUs__info {
+  text-align: center;
+  padding: 1rem;
+}
+
+.aboutUs__info p {
+  font-size: 1.1rem;
+  color: #444;
+  max-width: 50rem;
+  margin: 0.625rem auto;
+  text-align: justify;
+}
+
+.aboutUs__team-section {
+  margin-top: 2.5rem;
+  padding: 1.25rem;
+}
+
+.team-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.card__developer {
+  width: 100%;
+  max-width: 20rem;
+  overflow: hidden;
+  text-align: center;
+  padding: 1rem;
+}
+
+.card__developer img {
+  width: 100%;
+  height: 12rem;
+  object-fit: cover;
+  border-radius: 0.3125rem;
+}
+
+.card__developer h3 {
+  font-size: 1.25rem;
+  margin: 0.5rem 0;
+  color: #2c3e50;
+}
+
+.card__developer p {
+  font-size: 1rem;
+  color: #444;
+  margin: 0.25rem 0;
+}
+
+.card__developer a {
+  font-size: 0.9rem;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.card__developer a:hover {
+  text-decoration: underline;
+}
+
+.aboutUs__social-media {
+  text-align: center;
+  margin-top: 2.5rem;
+  padding: 1.25rem;
+}
+
+.social-icons {
+  display: flex;
+  justify-content: center;
+  gap: 0.9375rem;
+  margin-top: 0.9375rem;
+}
+
+.social-icons a img {
+  width: 2.5rem;
+  height: 2.5rem;
+  transition: transform 0.3s ease;
+}
+
+.social-icons a img:hover {
+  transform: scale(1.1);
+}
+
+@media screen and (max-width: 900px) {
+  .aboutUs {
+    width: 95%;
+  }
+  .title {
+    font-size: 1.75rem;
+  }
+  .aboutUs__info p {
+    font-size: 1rem;
+  }
+  .card__developer {
+    max-width: 16rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .introduction {
+    padding: 2.5rem 1rem;
+  }
+  .title {
+    font-size: 1.5rem;
+  }
+  .aboutUs__info p {
+    font-size: 0.9rem;
+  }
+  .card__developer {
+    max-width: 100%;
+  }
+  .social-icons a img {
+    width: 2rem;
+    height: 2rem;
+  }
+}

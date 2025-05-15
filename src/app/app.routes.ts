@@ -16,7 +16,7 @@ export const routes: Routes = [
   },
   {
     path: 'about-us-page',
-    loadComponent: () => import('./pages/about-us-page/about-us-page.page').then( m => m.AboutUsPagePage)
+    loadComponent: () => import('./pages/about-us-page/about-us-page.page').then( m => m.AboutUsPage)
   },
   {
     path: 'view-more-section-page',
