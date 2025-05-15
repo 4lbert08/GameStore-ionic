@@ -23,10 +23,10 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/view-more-section-page/view-more-section-page.page').then( m => m.ViewMoreSectionPage)
   },
   {
-  path: '**', redirectTo: '',
-  },
-  {
     path: 'login',
     loadComponent: () => import('./pages/login-page/login-page.page').then( m => m.LoginPage)
+  },
+  {
+  path: '**', redirectTo: '',
   },
 ];

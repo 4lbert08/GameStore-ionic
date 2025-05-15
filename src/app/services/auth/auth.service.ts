@@ -1,7 +1,7 @@
-import {inject, Injectable} from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, User, onAuthStateChanged } from 'firebase/auth';
-import { Observable } from 'rxjs';
-import {user} from '@angular/fire/auth';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { map } from 'rxjs/operators';
 import {FirestoreService} from '../firestore/firestore.service';
 
 @Injectable({
@@ -11,13 +11,14 @@ export class AuthService {
 
   firestore: FirestoreService = inject(FirestoreService);
   private auth = getAuth();
+  private userSubject = new BehaviorSubject<User | null>(null);
   user$: Observable<User | null>;
 
   constructor() {
-    this.user$ = new Observable((subscriber) => {
-      onAuthStateChanged(this.auth, (user) => {
-        subscriber.next(user);
-      });
+    this.user$ = this.userSubject.asObservable();
+    onAuthStateChanged(this.auth, (user) => {
+      console.log('Auth state changed:', user);
+      this.userSubject.next(user);
     });
   }
 
@@ -35,7 +36,6 @@ export class AuthService {
     try {
       const userCredential = await createUserWithEmailAndPassword(this.auth, email, password);
       if (userCredential.user) {
-
         const userData = {
           email: email,
           nickname: nickname,
@@ -60,5 +60,19 @@ export class AuthService {
 
   getCurrentUser(): Observable<User | null> {
     return this.user$;
+  }
+
+  userId?: string;
+  getCurrentUserId() {
+    this.getCurrentUser().subscribe(user => {
+      this.userId = user?.uid
+    });
+    return this.userId;
+  }
+
+  isAuthenticated(): Observable<boolean> {
+    return this.user$.pipe(
+      map(user => !!user)
+    );
   }
 }

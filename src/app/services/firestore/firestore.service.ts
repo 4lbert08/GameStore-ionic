@@ -9,7 +9,7 @@ import {
   where,
   QueryConstraint, setDoc, updateDoc
 } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 import { Game } from '../../models/game';
 import { Developer } from '../../models/developer';
 import {Review} from '../../models/review';
@@ -69,6 +69,9 @@ export class FirestoreService {
     const developerRef = collection(this.firestore, 'developers');
     return collectionData(developerRef, { idField: 'id' }) as Observable<Developer[]>;
   }
+
+  private userSubject = new BehaviorSubject<UserData | null>(null);
+  public user$ = this.userSubject.asObservable();
 
   getUserById(userId: string): Observable<UserData> {
     const userDocRef = doc(this.firestore, `users/${userId}`);
