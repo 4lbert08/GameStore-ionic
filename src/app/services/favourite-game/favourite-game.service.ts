@@ -1,30 +1,33 @@
 import { Injectable } from '@angular/core';
 import { Firestore, doc, setDoc, deleteDoc, getDoc, collection, getDocs, query, where } from '@angular/fire/firestore';
-import { Observable, from } from 'rxjs';
-import { map } from 'rxjs/operators';
-import {AuthService} from "../auth/auth.service";
-import {Game} from "../../models/game";
+import { Game } from '../../models/game';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LikedGameService {
   constructor(private firestore: Firestore, private auth: AuthService) {}
 
-  isGameLiked(gameId: string): Observable<boolean> {
-    const userId = this.auth.getCurrentUserId();
-    const gameDocRef = doc(this.firestore, `users/${userId}/likedGames/${gameId}`);
-    return from(getDoc(gameDocRef)).pipe(map(snapshot => snapshot.exists()));
+  async isGameLiked(gameId: string): Promise<boolean> {
+    try {
+      const userId = this.auth.getCurrentUserId();
+      const gameDocRef = doc(this.firestore, `users/${userId}/likedGames/${gameId}`);
+      const snapshot = await getDoc(gameDocRef);
+      return snapshot.exists();
+    } catch (error) {
+
+      throw error;
+    }
   }
 
   async likeGame(gameId: string): Promise<void> {
     const userId = this.auth.getCurrentUserId();
     const gameDocRef = doc(this.firestore, `users/${userId}/likedGames/${gameId}`);
     await setDoc(gameDocRef, {
-      likedAt: new Date()
+      likedAt: new Date(),
     });
   }
-
 
   async removeLikedGame(gameId: string): Promise<void> {
     const userId = this.auth.getCurrentUserId();
@@ -32,12 +35,11 @@ export class LikedGameService {
     await deleteDoc(gameDocRef);
   }
 
-  // Obtiene la lista de juegos favoritos
   async getLikedGames(): Promise<Game[]> {
     const userId = this.auth.getCurrentUserId();
     const likedGamesRef = collection(this.firestore, `users/${userId}/likedGames`);
     const likedSnapshot = await getDocs(likedGamesRef);
-    const gameIds = likedSnapshot.docs.map(doc => doc.id);
+    const gameIds = likedSnapshot.docs.map((doc) => doc.id);
 
     if (gameIds.length === 0) {
       return [];
@@ -50,7 +52,7 @@ export class LikedGameService {
       const gamesRef = collection(this.firestore, 'games');
       const q = query(gamesRef, where('id', 'in', batchIds));
       const gamesSnapshot = await getDocs(q);
-      games.push(...gamesSnapshot.docs.map(doc => doc.data() as Game));
+      games.push(...gamesSnapshot.docs.map((doc) => doc.data() as Game));
     }
 
     return games;

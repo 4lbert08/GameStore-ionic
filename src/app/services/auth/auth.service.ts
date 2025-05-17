@@ -1,21 +1,20 @@
-import { inject, Injectable } from '@angular/core';
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, User, onAuthStateChanged } from 'firebase/auth';
+import {inject, Injectable} from '@angular/core';
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, User, onAuthStateChanged } from 'firebase/auth';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
-import {FirestoreService} from '../firestore/firestore.service';
+import {FirestoreService} from "../firestore/firestore.service";
+import {Auth} from "@angular/fire/auth";
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-
-  firestore: FirestoreService = inject(FirestoreService);
-  private auth = getAuth();
+  private auth = inject(Auth);
   private userSubject = new BehaviorSubject<User | null>(null);
-  user$: Observable<User | null>;
+  user$: Observable<User | null> = this.userSubject.asObservable();
+  private firestore = inject(FirestoreService);
 
   constructor() {
-    this.user$ = this.userSubject.asObservable();
     onAuthStateChanged(this.auth, (user) => {
       console.log('Auth state changed:', user);
       this.userSubject.next(user);
@@ -36,6 +35,7 @@ export class AuthService {
     try {
       const userCredential = await createUserWithEmailAndPassword(this.auth, email, password);
       if (userCredential.user) {
+
         const userData = {
           email: email,
           nickname: nickname,
@@ -62,17 +62,15 @@ export class AuthService {
     return this.user$;
   }
 
-  userId?: string;
-  getCurrentUserId() {
-    this.getCurrentUser().subscribe(user => {
-      this.userId = user?.uid
-    });
-    return this.userId;
+  getCurrentUserId(): string {
+    const user = this.auth.currentUser;
+    if (!user) {
+      throw new Error('No user authenticated');
+    }
+    return user.uid;
   }
 
   isAuthenticated(): Observable<boolean> {
-    return this.user$.pipe(
-      map(user => !!user)
-    );
+    return this.user$.pipe(map((user) => !!user));
   }
 }
