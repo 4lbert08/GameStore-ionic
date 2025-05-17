@@ -4,6 +4,7 @@ import { GameSectionTransferService } from '../../services/game-section-tranfer/
 import { IonicModule } from '@ionic/angular';
 import { MainHeaderComponent } from '../../components/main-header/main-header.component';
 import {GameCardGalleryComponent} from "../../components/game-card-gallery/game-card-gallery.component";
+import {FooterComponent} from "../../components/footer/footer.component";
 
 @Component({
   selector: 'app-view-more-section-page',
@@ -13,6 +14,7 @@ import {GameCardGalleryComponent} from "../../components/game-card-gallery/game-
     IonicModule,
     MainHeaderComponent,
     GameCardGalleryComponent,
+    FooterComponent,
   ],
   styleUrls: ['./view-more-section-page.page.scss']
 })

@@ -5,11 +5,13 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { GameSearchService, SearchFilters } from '../../services/game-search/game-search.service';
 import {GameCardGalleryComponent} from "../../components/game-card-gallery/game-card-gallery.component";
+import {SecondaryHeaderComponent} from "../../components/secondary-header/secondary-header.component";
+import {FooterComponent} from "../../components/footer/footer.component";
 
 @Component({
   selector: 'app-advanced-search-page',
   standalone: true,
-  imports: [FormsModule, IonicModule, GameCardGalleryComponent,],
+  imports: [FormsModule, IonicModule, GameCardGalleryComponent, SecondaryHeaderComponent, FooterComponent,],
   templateUrl: './advanced-search-page.page.html',
   styleUrls: ['./advanced-search-page.page.scss']
 })
