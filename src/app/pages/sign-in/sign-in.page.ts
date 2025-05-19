@@ -4,7 +4,6 @@ import { AuthService } from '../../services/auth/auth.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
-
 @Component({
   selector: 'app-sign-up',
   standalone: true,

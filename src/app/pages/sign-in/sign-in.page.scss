@@ -11,7 +11,13 @@ h1 {
   font-weight: bold;
   color: #FFFFFF;
 }
+ion-row{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 
+  place-self: center;
+}
 label, a {
   font-weight: bold;
   color: #FFFFFF;
@@ -19,7 +25,7 @@ label, a {
 }
 
 ion-input {
-  width: 90%;
+  width: 100%;
   margin: 0.5rem 0;
   padding: 0.5rem;
   border-radius: 0.5rem;
@@ -54,10 +60,7 @@ ion-select#NacionalityField option {
 }
 
 .signUp {
-  position: relative;
   display: flex;
-  flex-direction: column;
-  place-self: center;
 }
 
 .signUp__box {
