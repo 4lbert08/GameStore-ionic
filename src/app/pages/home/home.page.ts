@@ -6,6 +6,7 @@ import { Game } from '../../models/game';
 import { Subscription } from 'rxjs';
 import { MainHeaderComponent } from '../../components/main-header/main-header.component';
 import {GameCardRowComponent} from "../../components/game-card-row/game-card-row.component";
+import {FooterComponent} from "../../components/footer/footer.component";
 
 interface GameSection {
   title: string;
@@ -19,7 +20,8 @@ interface GameSection {
     GameCardRowComponent,
     CommonModule,
     IonicModule,
-    MainHeaderComponent
+    MainHeaderComponent,
+    FooterComponent
   ],
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss']

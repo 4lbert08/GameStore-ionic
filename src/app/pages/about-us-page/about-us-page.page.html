@@ -1,13 +1,46 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>about-us-page</ion-title>
-  </ion-toolbar>
-</ion-header>
+<app-main-header />
+<ion-content>
+  <div class="introduction">
+    <h1>About Us</h1>
+    <p>Learn more about who we are and what we do.</p>
+  </div>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">about-us-page</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <div class="aboutUs">
+    <section class="aboutUs__info">
+      <h2 class="title">Our Story</h2>
+      <p>
+        We are a team dedicated to develop a game store.
+      </p>
+    </section>
+
+    <section class="aboutUs__team-section">
+      <h2 class="title">Our Team</h2>
+      <div class="team-cards">
+        <app-developer-card
+          *ngFor="let developer of developers.slice(0,3); let i = index"
+          [developerImage]="developer.image"
+          [developerName]="developer.name"
+          [developerMail]="developer.gmail"
+          [developerOccupation]="developer.work"
+          id="card{{i+1}}"
+          class="card__developer"
+        />
+      </div>
+    </section>
+
+    <section class="aboutUs__social-media">
+      <h2 class="title">Follow Us</h2>
+      <div class="social-icons">
+        <a href="https://facebook.com" target="_blank">
+          <img src="/assets/imgs/facebook_logo.webp" alt="Facebook">
+        </a>
+        <a href="https://twitter.com" target="_blank">
+          <img src="/assets/imgs/twitter_logo.webp" alt="Twitter">
+        </a>
+        <a href="https://instagram.com" target="_blank">
+          <img src="/assets/imgs/instagram_logo.webp" alt="Instagram">
+        </a>
+      </div>
+    </section>
+  </div>
 </ion-content>

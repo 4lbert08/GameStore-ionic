@@ -1,0 +1,94 @@
+<app-main-header></app-main-header>
+<ion-content>
+  <app-user-nav-bar></app-user-nav-bar>
+  <ion-grid>
+    <ion-row>
+      <ion-col size-xl="6" size="12" class="user-container">
+        <ion-avatar>
+          <img *ngIf="!userData?.avatar" src="assets/imgs/default-profile.png">
+          <img *ngIf="userData?.avatar" [src]="userData?.avatar">
+        </ion-avatar>
+        <ion-text class="user-nickname">{{userData?.nickname}}</ion-text>
+        <ion-button expand="block" color="primary" (click)="logOut()">Cerrar sesión</ion-button>
+      </ion-col>
+      <ion-col size-xl="4" size="12">
+        <form class="user-form" (ngSubmit)="onSubmit()" novalidate>
+          <ion-item>
+            <ion-label position="stacked">Cambiar el nickname</ion-label>
+            <ion-input
+              type="text"
+              name="nickname"
+              minlength="3"
+              maxlength="20"
+              [(ngModel)]="userDataEdit.nickname"
+              [class.invalid]="formSubmitted && formErrors.nickname"
+            ></ion-input>
+            <ion-text color="danger" *ngIf="formSubmitted && formErrors.nickname">
+              {{ formErrors.nickname }}
+            </ion-text>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked">Cambiar el cumpleaños</ion-label>
+            <ion-input
+              type="date"
+              name="birthday"
+              [(ngModel)]="userDataEdit.birthday"
+              [class.invalid]="formSubmitted && formErrors.birthday"
+            ></ion-input>
+            <ion-text color="danger" *ngIf="formSubmitted && formErrors.birthday">
+              {{ formErrors.birthday }}
+            </ion-text>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked">Cambiar de región</ion-label>
+            <ion-select
+              name="region"
+              [(ngModel)]="userDataEdit.region"
+              [class.invalid]="formSubmitted && formErrors.region"
+            >
+              <ion-select-option value="">Selecciona una región</ion-select-option>
+              <ion-select-option value="EU">EU</ion-select-option>
+              <ion-select-option value="NA">NA</ion-select-option>
+              <ion-select-option value="LATAM">LATAM</ion-select-option>
+              <ion-select-option value="AFR">AFR</ion-select-option>
+              <ion-select-option value="ASIA">ASIA</ion-select-option>
+            </ion-select>
+            <ion-text color="danger" *ngIf="formSubmitted && formErrors.region">
+              {{ formErrors.region }}
+            </ion-text>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked">Cambiar de idioma</ion-label>
+            <ion-select
+              name="language"
+              [(ngModel)]="userDataEdit.language"
+              [class.invalid]="formSubmitted && formErrors.language"
+            >
+              <ion-select-option value="">Selecciona un idioma</ion-select-option>
+              <ion-select-option value="Español">Español</ion-select-option>
+              <ion-select-option value="English">English</ion-select-option>
+            </ion-select>
+            <ion-text color="danger" *ngIf="formSubmitted && formErrors.language">
+              {{ formErrors.language }}
+            </ion-text>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked">Foto de perfil (Opcional)</ion-label>
+            <ion-input
+              type="file"
+              name="profilePicture"
+              (change)="onFileSelected($event)"
+              accept="image/*"
+              [class.invalid]="formSubmitted && formErrors.profilePicture"
+            ></ion-input>
+            <ion-text color="danger" *ngIf="formSubmitted && formErrors.profilePicture">
+              {{ formErrors.profilePicture }}
+            </ion-text>
+          </ion-item>
+          <ion-button type="submit" expand="block" color="primary" [disabled]="isUploading">Aplicar</ion-button>
+        </form>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+<app-footer></app-footer>

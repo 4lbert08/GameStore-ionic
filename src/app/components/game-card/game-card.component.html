@@ -1,9 +1,16 @@
 <div class="cards-container" (click)="onCardClick()">
-  <div class="game-card">
-    <img src="{{ gameCover }}" class="game-card__cover">
-    <div class="game-card__info">
-      <h3 class="game-card__title">{{ gameName }}</h3>
-      <p class="game-card__price">{{ gamePrice }}</p>
+  <div class="card-wrapper">
+    <div class="game-card">
+      <img src="{{ gameCover }}" class="game-card__cover" alt="{{ gameName }}">
+      <div class="game-card__info">
+        <h3 class="game-card__title">{{ gameName }}</h3>
+        <p class="game-card__price">{{ gamePrice }}</p>
+      </div>
+    </div>
+    <div class="favorite-container">
+      <ion-button class="favorite-btn" fill="clear" [ngClass]="{'favorited': isFavorite}" (click)="toggleFavorite($event)">
+        <ion-icon slot="icon-only" [name]="isFavorite ? 'star' : 'star-outline'"></ion-icon>
+      </ion-button>
     </div>
   </div>
 </div>

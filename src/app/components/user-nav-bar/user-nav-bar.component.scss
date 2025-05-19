@@ -1,0 +1,72 @@
+body {
+  font-family: "Genos", sans-serif;
+}
+
+.userMenuButton {
+  width: 33%;
+  height: 5rem;
+  background: linear-gradient(to right, #f30202, #0101fd);
+  border-radius: 3.125rem;
+  display: flex;
+  place-self: center;
+  place-content: center;
+  place-items: center;
+  margin: 5rem;
+}
+
+.userMenuButton__buttons {
+  background-color: #EBEBEF;
+  width: 40rem;
+  height: 3rem;
+  margin: 1rem;
+  text-decoration: none;
+  border-radius: 3.125rem;
+  display: flex;
+  place-items: center;
+  place-content: center;
+  place-self: center;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.userMenuButton__buttons:hover {
+  transform: scale(1.05);
+  background-color: #989898;
+}
+
+.userMenuButton__text {
+  color: #000;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+@media screen and (max-width: 900px) {
+  .userMenuButton {
+    width: 30rem;
+    height: 6rem;
+    margin: 3rem;
+  }
+  .userMenuButton__buttons {
+    height: 2.5rem;
+    font-size: 1rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .userMenuButton {
+    width: 15rem;
+    height: auto;
+    min-height: 9rem;
+    margin: 2rem auto;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 1rem 0;
+  }
+  .userMenuButton__buttons {
+    width: 50%;
+    max-width: 20rem;
+    height: 2rem;
+    font-size: 0.9rem;
+    margin: 0.5rem 0;
+  }
+}

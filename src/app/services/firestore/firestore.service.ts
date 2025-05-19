@@ -7,19 +7,40 @@ import {
   Firestore,
   query,
   where,
-  QueryConstraint, setDoc, updateDoc
+  QueryConstraint,
+  setDoc,
+  updateDoc,
 } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Game } from '../../models/game';
 import { Developer } from '../../models/developer';
-import {Review} from '../../models/review';
-import {UserData} from '../../models/user';
+import { Review } from '../../models/review';
+import { UserData } from '../../models/user';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class FirestoreService {
-  constructor(private firestore: Firestore) {}
+  private userSubject = new BehaviorSubject<UserData | null>(null);
+  public user$ = this.userSubject.asObservable();
+
+  constructor(private firestore: Firestore) {
+    const auth = getAuth();
+    onAuthStateChanged(auth, (authUser) => {
+      if (authUser) {
+        console.log('Auth user detected, UID:', authUser.uid);
+        const userDocRef = doc(this.firestore, `users/${authUser.uid}`);
+        docData(userDocRef, { idField: 'id' }).subscribe((userData) => {
+          console.log('User data loaded:', userData);
+          this.userSubject.next(userData!.id);
+        });
+      } else {
+        console.log('No auth user detected, setting user to null');
+        this.userSubject.next(null);
+      }
+    });
+  }
 
   getGames(filters: { [key: string]: any } = {}): Observable<Game[]> {
     const gameRef = collection(this.firestore, 'games');
@@ -89,7 +110,7 @@ export class FirestoreService {
     ) as Observable<Review[]>;
   }
 
-  addUser(user: UserData, id: string){
+  addUser(user: UserData, id: string) {
     const userRef = doc(this.firestore, `users/${id}`);
     return setDoc(userRef, user);
   }
@@ -99,7 +120,7 @@ export class FirestoreService {
     return docData(userDocRef, { idField: 'id' }) as Observable<UserData>;
   }
 
-  updateUser(id: string |undefined, user: Partial<UserData>) {
+  updateUser(id: string | undefined, user: Partial<UserData>) {
     const userDocRef = doc(this.firestore, `users/${id}`);
     return updateDoc(userDocRef, user);
   }
