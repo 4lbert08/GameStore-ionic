@@ -1,0 +1,37 @@
+
+
+
+<ion-content class="otp-container">
+  <ion-grid>
+    <ion-row class="ion-justify-content-center">
+    <div class="Top">
+      <div class="Top__Logo">
+        <img routerLink="" style="cursor: pointer" class="Top__Logo__LogoImg"
+             src="assets/imgs/logo.png" alt="Logo">
+      </div>
+    </div>
+    </ion-row>
+    <ion-row class="ion-justify-content-center">
+      <ion-col size="10" size-md="10" size-xl="6" class="ion-align-self-center">
+        <h1 class="otp-container__title">Verificación del cambio de contraseña</h1>
+
+        <section class="otp-container__box">
+          <form id="OTPForm" (ngSubmit)="onSubmit()">
+            <div class="otp-input-group">
+              <ion-label>Revisa tu correo electrónico para obtener el código de verificación que ha sido enviado.</ion-label>
+              <ion-input type="text" placeholder="Introduce el código OTP" required></ion-input>
+            </div>
+
+            <div class="otp-request">
+              <ion-button class="btn-primary" type="button">Solicitar OTP</ion-button>
+            </div>
+
+            <div class="otp-submit">
+              <ion-button class="accept-button" type="submit">Aceptar</ion-button>
+            </div>
+          </form>
+        </section>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

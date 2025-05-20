@@ -36,6 +36,14 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/user-settings/user-settings.page').then( m => m.UserSettingsComponent)
   },
   {
+    path: 'otp-verification',
+    loadComponent: () => import('./pages/otp-verification/otp-verification.page').then( m => m.OtpVerificationPage)
+  },
+  {
+    path: 'forgot-password',
+    loadComponent: () => import('./pages/forgot-password/forgot-password.page').then( m => m.ForgotPasswordPage)
+  },
+  {
   path: '**', redirectTo: '',
   },
 
