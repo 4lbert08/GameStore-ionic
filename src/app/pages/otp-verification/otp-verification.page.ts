@@ -19,6 +19,6 @@ export class OtpVerificationPage {
   router = inject(Router);
 
   onSubmit() {
-    this.router.navigate(['/resetPassword']).then(r => scroll(0,0));
+    this.router.navigate(['/reset-password']).then(r => scroll(0,0));
   }
 }
