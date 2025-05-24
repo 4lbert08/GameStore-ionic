@@ -1,0 +1,17 @@
+<app-main-header></app-main-header>
+<ion-content>
+  <app-user-nav-bar></app-user-nav-bar>
+  <div *ngIf="games.length === 0" class="no-games">
+    <ion-label>No favorite games yet.</ion-label>
+  </div>
+  <div class="gallery">
+    <app-game-card
+      *ngFor="let game of games"
+      [gameId]="game.id"
+      [gameCover]="game.gameCover || 'assets/imgs/default-game.png'"
+      [gameName]="game.name"
+      [gamePrice]="game.amount + ' ' + game.currency"
+    ></app-game-card>
+  </div>
+</ion-content>
+<app-footer></app-footer>

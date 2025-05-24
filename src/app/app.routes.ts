@@ -31,7 +31,10 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/user-settings/user-settings.page').then( m => m.UserSettingsComponent)
   },
   {
+    path: 'user-fav-games',
+    loadComponent: () => import('./pages/user-fav-games/user-fav-games.page').then( m => m.UserFavGamesPage)
+  },
+  {
   path: '**', redirectTo: '',
   },
-
 ];

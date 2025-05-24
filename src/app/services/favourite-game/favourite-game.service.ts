@@ -1,13 +1,31 @@
 import { Injectable } from '@angular/core';
-import { Firestore, doc, setDoc, deleteDoc, getDoc, collection, getDocs, query, where } from '@angular/fire/firestore';
+import {
+  Firestore,
+  doc,
+  setDoc,
+  deleteDoc,
+  getDoc,
+  collection,
+  getDocs,
+  query,
+  where,
+  collectionData
+} from '@angular/fire/firestore';
 import { Game } from '../../models/game';
 import { AuthService } from '../auth/auth.service';
+import { catchError, combineLatest, Observable, of, switchMap } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { FirestoreService } from '../firestore/firestore.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LikedGameService {
-  constructor(private firestore: Firestore, private auth: AuthService) {}
+  constructor(
+    private firestore: Firestore,
+    private auth: AuthService,
+    private firestoreService: FirestoreService
+  ) {}
 
   async isGameLiked(gameId: string): Promise<boolean> {
     try {
@@ -16,13 +34,13 @@ export class LikedGameService {
       const snapshot = await getDoc(gameDocRef);
       return snapshot.exists();
     } catch (error) {
-
       throw error;
     }
   }
 
   async likeGame(gameId: string): Promise<void> {
     const userId = this.auth.getCurrentUserId();
+    if (!userId) throw new Error('User ID is required');
     const gameDocRef = doc(this.firestore, `users/${userId}/likedGames/${gameId}`);
     await setDoc(gameDocRef, {
       likedAt: new Date(),
@@ -31,30 +49,35 @@ export class LikedGameService {
 
   async removeLikedGame(gameId: string): Promise<void> {
     const userId = this.auth.getCurrentUserId();
+    if (!userId) throw new Error('User ID is required');
     const gameDocRef = doc(this.firestore, `users/${userId}/likedGames/${gameId}`);
     await deleteDoc(gameDocRef);
   }
 
-  async getLikedGames(): Promise<Game[]> {
+  getLikedGames(): Observable<Game[]> {
     const userId = this.auth.getCurrentUserId();
-    const likedGamesRef = collection(this.firestore, `users/${userId}/likedGames`);
-    const likedSnapshot = await getDocs(likedGamesRef);
-    const gameIds = likedSnapshot.docs.map((doc) => doc.id);
+    const likedGamesCollection = collection(this.firestore, `/users/${userId}/likedGames`);
 
-    if (gameIds.length === 0) {
-      return [];
-    }
-
-    const games: Game[] = [];
-    const batchSize = 10;
-    for (let i = 0; i < gameIds.length; i += batchSize) {
-      const batchIds = gameIds.slice(i, i + batchSize);
-      const gamesRef = collection(this.firestore, 'games');
-      const q = query(gamesRef, where('id', 'in', batchIds));
-      const gamesSnapshot = await getDocs(q);
-      games.push(...gamesSnapshot.docs.map((doc) => doc.data() as Game));
-    }
-
-    return games;
+    return collectionData(likedGamesCollection, { idField: 'id' }).pipe(
+      switchMap(likedGames => {
+        console.log('Datos crudos de juegos favoritos: ', likedGames);
+        if (likedGames.length === 0) {
+          return of([]);
+        }
+        const gameIds = likedGames.map(item => item.id);
+        console.log('IDs de juegos: ', gameIds);
+        const gameObservables = gameIds.map(gameId => this.firestoreService.getGameById(gameId));
+        return combineLatest(gameObservables).pipe(
+          map(games => {
+            console.log('Juegos obtenidos: ', games);
+            return games.filter(game => game !== null);
+          })
+        );
+      }),
+      catchError(error => {
+        console.error('Error fetching liked games:', error);
+        return of([]);
+      })
+    );
   }
 }
