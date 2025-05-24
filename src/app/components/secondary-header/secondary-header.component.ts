@@ -5,7 +5,7 @@ import { GameSearchService } from '../../services/game-search/game-search.servic
 import { Router } from '@angular/router';
 import { UserData } from '../../models/user';
 import { User } from 'firebase/auth';
-import {CommonModule, NgIf} from '@angular/common';
+import {CommonModule} from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
@@ -14,13 +14,14 @@ import { RouterModule } from '@angular/router';
   selector: 'app-secondary-header',
   imports: [
     FormsModule,
+    RouterModule,
     IonicModule,
-    NgIf,
+    CommonModule,
   ],
   templateUrl: './secondary-header.component.html',
   styleUrl: './secondary-header.component.scss'
 })
-export class SecondaryHeaderComponent {
+export class SecondaryHeaderComponent implements OnInit {
   searchQuery: string = '';
   selectedLanguage: string = 'en';
   user: User | null = null;
@@ -41,7 +42,6 @@ export class SecondaryHeaderComponent {
       }
     });
   }
-
 
   protected readonly encodeURI = encodeURI;
 }

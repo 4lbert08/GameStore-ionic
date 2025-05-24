@@ -1,0 +1,22 @@
+.no-games {
+  text-align: center;
+  padding: 20px;
+  color: var(--ion-color-medium);
+}
+
+.loading {
+  text-align: center;
+  padding: 20px;
+}
+
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+app-game-card {
+  flex: 1 1 calc(50% - 10px);
+  max-width: 200px;
+}

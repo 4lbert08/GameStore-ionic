@@ -56,11 +56,12 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/my-orders/my-orders.page').then( m => m.MyOrdersPage)
   },
   {
+    path: 'user-fav-games',
+    loadComponent: () => import('./pages/user-fav-games/user-fav-games.page').then( m => m.UserFavGamesPage)
+  },
+  {
   path: '**', redirectTo: '',
   },
-
-
-
 
 
 ];
