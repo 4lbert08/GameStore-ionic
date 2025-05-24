@@ -148,6 +148,7 @@ Estos son los servicios del proyecto, encargados de la lógica de negocio y la c
 | `firestore`        | Administra la base de datos en tiempo real  |
 | `game-search`        | Facilita la búsqueda de juegos |
 | `game-section-transfer`        | Transfiere datos entre secciones de juegos |
+| `favourite-game`        | Lógica para guardar los juegos en favoritos tanto en Firebase como SQlite |
 
 
 ## ➕ Otros aspectos
