@@ -39,14 +39,10 @@ GameStore es una plataforma de comercio electrónico especializada en la venta d
 7. Permitir una fácil interacción.
 
 
-## 📂 Estructura del proyecto ANGULAR
+## 📂 Estructura del proyecto IONIC
 
 <pre>
-GameStore-Angular/
-├── public/              # Recursos estáticos accesibles públicamente
-│   ├── genos/           # Fuente Genos
-│   ├── imgs/            # Imágenes del proyecto
-│   ├── fonts.css        # Estilos de fuentes personalizadas
+GameStore-Ionic/
 ├── src/                 # Código fuente del proyecto
 │   ├── app/             # Módulo principal de la aplicación Angular
 │   │   ├── components/  # Componentes reutilizables de la aplicación
@@ -57,6 +53,13 @@ GameStore-Angular/
 │   │   ├── app.config.ts    # Configuración de la aplicación
 │   │   ├── app.routes.ts    # Rutas de la aplicación
 │   ├── environments/    # Configuraciones de entorno (Firebase)
+│   ├── assets/    # Recursos estáticos accesibles públicamente
+|   |   ├── genos/           # Fuente Genos
+│   |   ├── imgs/            # Imágenes del proyecto
+│   |   ├── icon/            # Iconos del proyecto  
+│   |   ├── fonts.css        # Estilos de fuentes personalizadas
+│   ├── themes/          # Carpeta que contiene un archivo sccs donde se definen las variables 
+│   ├── global.scss      # Archivo scss con las especificaciones defaults para toda la página
 │   ├── index.html       # Archivo HTML principal de la aplicación
 │   ├── main.ts          # Punto de entrada de la aplicación Angular
 │   ├── styles.css       # Estilos globales del proyecto
@@ -154,5 +157,5 @@ Hemos implementado Bootstrap en nuestro proyecto, siguiendo la recomendación de
 ## 🔗 Enlaces
 
 - **Figma**: [https://www.figma.com/design/cce85AsKYbHsWryGC4aJGa/MOCKUPS-PWM?m=auto&t=PlizMet0r5Rgm5UZ-6](#)
-- **Trello**: [https://trello.com/b/rqpZeotc/tablero-pwm-sprint-3](#)
+- **Trello**: [https://trello.com/b/eEGWSKRv/tablero-pwm-sprint-4](#)
 - **PowerPoint**: [https://alumnosulpgc-my.sharepoint.com/:p:/g/personal/alberto_rodriguez136_alu_ulpgc_es/ESOs6h63a-FInuf2RN01HvEBbM0Iv3EO8yjkpIpmClzWrQ ](#)
