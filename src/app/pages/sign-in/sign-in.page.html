@@ -1,0 +1,148 @@
+<ion-content >
+  <div class="signUp">
+  <ion-grid>
+    <ion-row >
+      <ion-col size="9" size-md="9" size-xl="6" class="ion-align-self-center" >
+        <h1 style="text-align: center">Regístrate</h1>
+
+        <div class="signUp__box">
+          <form id="signUpForm" (ngSubmit)="onSubmit()" novalidate>
+            <div class="signUp__box-input">
+              <label for="UsernameField">Nombre del usuario</label>
+              <ion-input
+                type="text"
+                id="UsernameField"
+                name="Username"
+                placeholder="Username"
+                required
+                minlength="3"
+                maxlength="20"
+                [(ngModel)]="nickname"
+                [ngClass]="{'is-invalid': formSubmitted && formErrors.nickname}"
+              ></ion-input>
+              <div *ngIf="formSubmitted && formErrors.nickname" class="invalid-feedback">
+                {{ formErrors.nickname }}
+              </div>
+            </div>
+
+            <div class="signUp__box-input">
+              <label for="EmailField">Email del usuario</label>
+              <ion-input
+                type="email"
+                id="EmailField"
+                name="Email"
+                placeholder="Email address"
+                required
+                [(ngModel)]="email"
+                [ngClass]="{'is-invalid': formSubmitted && formErrors.email}"
+              ></ion-input>
+              <div *ngIf="formSubmitted && formErrors.email" class="invalid-feedback">
+                {{ formErrors.email }}
+              </div>
+            </div>
+
+            <div class="signUp__box-input">
+              <label for="PasswordField">Contraseña del usuario</label>
+              <div class="passwordContainer">
+                <ion-input
+                  type="password"
+                  id="PasswordField"
+                  name="Password"
+                  placeholder="Password"
+                  required
+                  [(ngModel)]="password"
+                  [ngClass]="{'is-invalid': formSubmitted && formErrors.password}"
+                ></ion-input>
+                <img
+                  id="privacyToggler"
+                  src="assets/imgs/privacyEnabled.png"
+                  width="32"
+                  height="32"
+                  alt="Mostrar/ocultar contraseña"
+                  (click)="togglePasswordVisibility('PasswordField')"
+                  style="cursor: pointer"
+                >
+              </div>
+              <div *ngIf="formSubmitted && formErrors.password" class="invalid-feedback">
+                {{ formErrors.password }}
+              </div>
+            </div>
+
+            <div class="signUp__box-input">
+              <label for="PasswordRepeatField">Repite la contraseña del usuario</label>
+              <div class="passwordContainer">
+                <ion-input
+                  type="password"
+                  id="PasswordRepeatField"
+                  name="PasswordRepeat"
+                  placeholder="Password again"
+                  required
+                  [(ngModel)]="repeatPassword"
+                  [ngClass]="{'is-invalid': formSubmitted && formErrors.repeatPassword}"
+                ></ion-input>
+                <img
+                  id="privacyTogglerRepeat"
+                  src="assets/imgs/privacyEnabled.png"
+                  width="32"
+                  height="32"
+                  alt="Mostrar/ocultar contraseña"
+                  (click)="togglePasswordVisibility('PasswordRepeatField')"
+                  style="cursor: pointer"
+                >
+              </div>
+              <div *ngIf="formSubmitted && formErrors.repeatPassword" class="invalid-feedback">
+                {{ formErrors.repeatPassword }}
+              </div>
+            </div>
+
+            <div class="signUp__box-input">
+              <label for="BirthdayField">Cumpleaños del usuario</label>
+              <ion-input
+                type="date"
+                id="BirthdayField"
+                name="Birthday"
+                placeholder="Birthday"
+                required
+                [(ngModel)]="birthday"
+                [ngClass]="{'is-invalid': formSubmitted && formErrors.birthday}"
+              ></ion-input>
+              <div *ngIf="formSubmitted && formErrors.birthday" class="invalid-feedback">
+                {{ formErrors.birthday }}
+              </div>
+            </div>
+
+            <div class="signUp__box-input">
+              <label for="NacionalityField">Nacionalidad del usuario</label>
+              <ion-select
+                id="NacionalityField"
+                name="Nacionality"
+                interface="action-sheet"
+                [(ngModel)]="region"
+                [ngClass]="{'is-invalid': formSubmitted && formErrors.region}"
+              >
+                <ion-select-option value="">Selecciona una región</ion-select-option>
+                <ion-select-option value="EU">EU</ion-select-option>
+                <ion-select-option value="NA">NA</ion-select-option>
+                <ion-select-option value="LATAM">LATAM</ion-select-option>
+                <ion-select-option value="AFR">AFR</ion-select-option>
+                <ion-select-option value="ASIA">ASIA</ion-select-option>
+              </ion-select>
+              <div *ngIf="formSubmitted && formErrors.region" class="invalid-feedback">
+                {{ formErrors.region }}
+              </div>
+            </div>
+
+            <div class="signUp__logo">
+              <img routerLink="" style="cursor: pointer" class="signUp__logo-img" src="assets/imgs/logo.png" alt="Logo">
+            </div>
+
+            <div class="signUp__submit">
+              <ion-button class="RegisterButton" type="submit">Sign up</ion-button>
+            </div>
+          </form>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  </div>
+</ion-content>

@@ -1,0 +1,122 @@
+label, ion-label {
+  font-weight: bold;
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+  color: #ffffff;
+}
+
+h1 {
+  color: #ffffff;
+  font-weight: bold;
+}
+
+ion-input {
+  width: 25%;
+  margin: 0.625rem 0;
+  padding: 0.3125rem;
+  border-radius: 0.3125rem;
+  background: transparent;
+  color: #ffffff;
+  border: #ffffff solid 0.0625rem;
+  font-size: 1rem;
+  --padding-start: 0.3125rem;
+  --padding-end: 0.3125rem;
+}
+
+ion-button {
+  font-size: 1rem;
+}
+
+.Top {
+  padding: 2%;
+  display: flex;
+  flex-direction: row;
+}
+
+.Top__Logo__LogoImg {
+  width: 12.5rem;
+  background: #1E1EBF;
+  border-radius: 2.8125rem;
+  transition: transform 0.3s ease, background-color 0.3s ease, border-radius 0.3s ease;
+}
+
+.Top__Logo__LogoImg:hover {
+  background-color: #1E1EAD;
+  transform: scale(1.05);
+  border-radius: 3.125rem;
+}
+
+.otp-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.otp-container__box {
+  position: relative;
+  width: 100%;
+  padding: 5rem 2.5rem;
+  background: none;
+}
+
+.otp-container__title {
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.otp-container__box::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #6119B4;
+  filter: blur(0.625rem);
+  z-index: -1;
+  border-radius: inherit;
+}
+
+.otp-input-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.otp-input-group ion-input::placeholder {
+  color: #ffffff;
+}
+
+.otp-request {
+  display: flex;
+  justify-content: center;
+  margin: 1rem auto;
+}
+
+.otp-submit {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.accept-button {
+  scale: 1.5;
+  margin-top: 5%;
+  color: #ffffff;
+  text-transform: uppercase;
+  padding: 0.625rem;
+  background: #1E1EBF;
+  border: #ffffff solid 0.125rem;
+  border-radius: 0.3125rem;
+}
+
+.btn-primary {
+  color: #ffffff;
+  background: #1E1EBF;
+  border: #ffffff solid 0.125rem;
+  border-radius: 0.3125rem;
+}
