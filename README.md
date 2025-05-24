@@ -53,7 +53,7 @@ GameStore-Ionic/
 │   │   ├── app.config.ts    # Configuración de la aplicación
 │   │   ├── app.routes.ts    # Rutas de la aplicación
 │   ├── environments/    # Configuraciones de entorno (Firebase)
-│   ├── assets/    # Recursos estáticos accesibles públicamente
+│   ├── assets/          # Recursos estáticos accesibles públicamente
 |   |   ├── genos/           # Fuente Genos
 │   |   ├── imgs/            # Imágenes del proyecto
 │   |   ├── icon/            # Iconos del proyecto  
