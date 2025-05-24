@@ -1,0 +1,54 @@
+<app-main-header></app-main-header>
+
+<ion-content>
+  <div class="container">
+    <div class="row">
+      <div class="container col-6">
+        <app-item-cart *ngFor="let item of items" [item]="item"></app-item-cart>
+      </div>
+
+      <div class="payment col-6">
+        <h2 class="payment__title">Resumen de compra</h2>
+
+        <div class="payment__details">
+          <div class="payment__row">
+            <span class="payment__label">Subtotal:</span>
+            <span class="payment__value">XXXX$</span>
+          </div>
+
+          <div class="payment__row">
+            <span class="payment__label">Descuento:</span>
+            <span class="payment__value payment__discount">-XXXX$</span>
+          </div>
+
+          <div class="payment__divider"></div>
+
+          <div class="payment__row payment__total">
+            <span class="payment__label">Total:</span>
+            <span class="payment__value">XXXX$</span>
+          </div>
+        </div>
+
+        <ion-button
+          class="payment__button"
+          expand="block"
+          fill="solid"
+          (click)="goToCheckout()">
+          <span class="payment__button-text">Proceder con el pago</span>
+          <span class="payment__button-icon">→</span>
+        </ion-button>
+
+        <ion-button
+          class="payment__keep-buying"
+          fill="clear"
+          size="small"
+          (click)="continueShopping()">
+          <img class="payment__arrow-icon" src="assets/imgs/flecha.png" alt="Flecha">
+          <span>Seguir comprando</span>
+        </ion-button>
+      </div>
+    </div>
+  </div>
+</ion-content>
+
+<app-footer></app-footer>

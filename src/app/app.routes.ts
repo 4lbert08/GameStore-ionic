@@ -64,7 +64,13 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/game-showcase/game-showcase.page').then(m => m.GameShowcasePageComponent)
   },
   {
+    path: 'cart',
+    loadComponent: () => import('./pages/cart/cart.page').then( m => m.CartPage)
+  },
+  {
   path: '**', redirectTo: '',
   },
+
+
 
 ];

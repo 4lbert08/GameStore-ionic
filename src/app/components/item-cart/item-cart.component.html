@@ -1,0 +1,39 @@
+<div *ngIf="item" class="gameInShopping-card">
+  <div class="gameInShopping-status">In Cart</div>
+
+  <div class="gameInShopping-content">
+    <div class="product-image">
+      <img [src]="game?.gameCover" [alt]="game?.name + ' image'">
+      <div class="product-name">{{ game?.name }}</div>
+    </div>
+
+    <div class="gameInShopping-details">
+      <div class="gameInShopping-specs">
+        <div class="spec-item">
+          <span class="spec-label">System: {{ game?.system }}</span>
+        </div>
+        <div class="spec-item">
+          <span class="spec-label">Platform: {{ game?.platform }}</span>
+        </div>
+        <div class="spec-item">
+          <span class="spec-label">Price: {{ game?.amount }} {{ game?.currency }}</span>
+        </div>
+      </div>
+
+      <div class="quantity-container">
+        <ion-input
+          type="number"
+          class="quantity-input"
+          [(ngModel)]="item.quantity"
+          (ionInput)="updateQuantity(item.id!, item.quantity)"
+          min="1">
+        </ion-input>
+      </div>
+    </div>
+
+    <div class="gameInShopping-actions">
+      <button class="remove-btn" (click)="remove()">🗑 Delete</button>
+      <button class="checkout-btn">💳 Pay</button>
+    </div>
+  </div>
+</div>
