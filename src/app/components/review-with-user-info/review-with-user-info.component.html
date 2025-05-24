@@ -1,0 +1,35 @@
+<ion-card class="userReview" *ngIf="!isLoading && !error">
+  <ion-card-content>
+    <ion-grid>
+      <ion-row class="ion-align-items-center">
+        <ion-col size="12" size-sm="3" class="ion-text-center" *ngIf="user">
+          <ion-avatar class="userAvatar">
+            <img [src]="user.avatar" [alt]="user.nickname + ' avatar'">
+          </ion-avatar>
+          <ion-text>
+            <p class="userName">{{user.nickname}}</p>
+          </ion-text>
+        </ion-col>
+
+        <ion-col size="12" size-sm="9">
+          <ion-text>
+            <p class="review">{{review.review}}</p>
+          </ion-text>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-card-content>
+</ion-card>
+
+<div *ngIf="isLoading" class="ion-text-center ion-padding">
+  <ion-spinner></ion-spinner>
+  <ion-text color="light">
+    <p>Loading reviews...</p>
+  </ion-text>
+</div>
+
+<div *ngIf="error" class="ion-text-center ion-padding">
+  <ion-text color="danger">
+    <p>{{error}}</p>
+  </ion-text>
+</div>

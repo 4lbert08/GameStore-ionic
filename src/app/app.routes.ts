@@ -60,8 +60,11 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/user-fav-games/user-fav-games.page').then( m => m.UserFavGamesPage)
   },
   {
+    path: 'gamePage/:id',
+    loadComponent: () => import('./pages/game-showcase/game-showcase.page').then(m => m.GameShowcasePageComponent)
+  },
+  {
   path: '**', redirectTo: '',
   },
-
 
 ];

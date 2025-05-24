@@ -1,0 +1,103 @@
+.gameName{
+  justify-self: start;
+  color: #ffffff;
+  font-size: 4vw;
+}
+
+.subTitles, .text{
+  color: #ffffff;
+}
+
+.gameCover{
+  width: 100%;
+  border: 4px solid black;
+  border-radius: 5%;
+}
+
+.priceContainer{
+  justify-self: center;
+  width: fit-content;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1vw;
+  border: 3px solid black;
+  border-radius: 15%;
+  background: linear-gradient(to right, #7209b7, #3f37c9);
+  padding: 1vw 2vw;
+  margin: 1vw;
+}
+
+.logoImg{
+  width: 10vw;
+  max-width: 150px;
+}
+
+.price{
+  font-size: 3.5vw;
+  color: #ffffff;
+  padding: 0.25vw 1vw;
+  background-color: #000;
+  border-radius: 5%;
+}
+
+.cartButton {
+  text-align: center;
+  color: white;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  background: linear-gradient(145deg, #4d1ca3, #3a1679);
+  border-radius: 4px;
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5),
+  inset 1px 1px 2px rgba(255, 255, 255, 0.2);
+  border: none;
+  letter-spacing: 0.05rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  position: relative;
+  overflow: hidden;
+}
+
+.cartButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 3px 4px 8px rgba(0, 0, 0, 0.6),
+  inset 1px 1px 2px rgba(255, 255, 255, 0.3);
+}
+
+.cartButton:active {
+  transform: translateY(1px);
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4),
+  inset 1px 1px 1px rgba(255, 255, 255, 0.1);
+}
+
+.section{
+  margin-top: 10vh;
+}
+
+.image-container{
+  position: relative;
+  overflow: hidden;
+  border-radius: 4px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.image-container:hover img {
+  transform: scale(1.03);
+}
+
+.gameImage{
+  width: 100%;
+  height: auto;
+  transition: transform 0.3s ease;
+}
+
+#ReviewButton {
+  color: white;
+  background-color: #441991;
+  padding: 1vw;
+  border: 2px solid white;
+  border-radius: 50%;
+}

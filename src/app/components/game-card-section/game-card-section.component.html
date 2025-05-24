@@ -1,0 +1,38 @@
+<ion-card class="gallery-container">
+  <ion-card-header class="title-header">
+    <ion-card-title>
+      <ion-text>
+        <h2>{{ title }}</h2>
+      </ion-text>
+    </ion-card-title>
+    <ion-button
+      fill="solid"
+      color="primary"
+      class="see-more-button"
+      (click)="navigateToViewMore()">
+      SEE MORE
+    </ion-button>
+  </ion-card-header>
+
+  <ion-card-content>
+    <ion-grid class="gallery">
+      <ion-row>
+        <ion-col
+          size="6"
+          size-sm="4"
+          size-md="2.4"
+          *ngFor="let game of games?.slice(0, 5); let i = index"
+          class="card-col">
+          <app-game-card
+            [gameId]="game.id"
+            [gameName]="game.name"
+            [gameCover]="game.gameCover"
+            [gamePrice]="game.amount + ' ' + game.currency"
+            id="card{{i+1}}"
+            class="card__game">
+          </app-game-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-card-content>
+</ion-card>
