@@ -1,0 +1,33 @@
+.userReview {
+  --background: #282727;
+  margin-bottom: 2px;
+
+  ion-card-content {
+    padding: 1rem;
+  }
+}
+
+.gameName,
+.review {
+  p {
+    color: white;
+    margin: 0;
+  }
+}
+
+.gameName {
+  margin-top: 8px;
+}
+
+.gameCover {
+  border-radius: 1.25rem;
+  height: 12rem;
+  width: 10rem;
+  object-fit: cover;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: scale(1.02);
+  }
+}

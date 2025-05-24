@@ -48,8 +48,19 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/reset-password/reset-password.page').then( m => m.ResetPasswordPage)
   },
   {
+    path: 'my-reviews',
+    loadComponent: () => import('./pages/my-reviews/my-reviews.page').then( m => m.MyReviewsPage)
+  },
+  {
+    path: 'my-orders',
+    loadComponent: () => import('./pages/my-orders/my-orders.page').then( m => m.MyOrdersPage)
+  },
+  {
   path: '**', redirectTo: '',
   },
+
+
+
 
 
 ];

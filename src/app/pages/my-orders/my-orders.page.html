@@ -1,0 +1,15 @@
+<ion-header>
+  <app-main-header></app-main-header>
+</ion-header>
+
+<ion-content>
+  <app-user-nav-bar></app-user-nav-bar>
+
+  <div class="ion-padding">
+    <app-order *ngFor="let order of userOrders" [order]="order"></app-order>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <app-footer></app-footer>
+</ion-footer>

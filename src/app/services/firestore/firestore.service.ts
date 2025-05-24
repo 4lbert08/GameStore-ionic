@@ -17,6 +17,7 @@ import { Developer } from '../../models/developer';
 import { Review } from '../../models/review';
 import { UserData } from '../../models/user';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import {Order} from "../../models/order";
 
 @Injectable({
   providedIn: 'root',
@@ -81,7 +82,7 @@ export class FirestoreService {
     return constraints;
   }
 
-  getGameById(gameId: string): Observable<Game> {
+  getGameById(gameId: string | undefined): Observable<Game> {
     const gameDocRef = doc(this.firestore, `games/${gameId}`);
     return docData(gameDocRef, { idField: 'id' }) as Observable<Game>;
   }
@@ -124,4 +125,12 @@ export class FirestoreService {
     const userDocRef = doc(this.firestore, `users/${id}`);
     return updateDoc(userDocRef, user);
   }
+
+  getOrdersFromUser(userId: string | undefined): Observable<Order[]> {
+    return collectionData(
+      query(collection(this.firestore, 'orders'), where('userId', '==', userId)),
+      { idField: 'id' }
+    ) as Observable<Order[]>;
+  }
+
 }

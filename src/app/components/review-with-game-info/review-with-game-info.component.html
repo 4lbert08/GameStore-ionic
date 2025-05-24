@@ -1,0 +1,37 @@
+<ion-card *ngIf="!isLoading && !error" class="userReview">
+  <ion-card-content class="ion-no-padding">
+    <ion-grid>
+      <ion-row class="ion-align-items-center">
+        <ion-col size="12" size-sm="4" class="ion-text-center" *ngIf="game">
+          <img class="gameCover" [src]="game.gameCover" [alt]="game.name + ' cover'" [routerLink]="'/gamePage/' + game.id">
+          <ion-text class="gameName">
+            <p>{{game.name}}</p>
+          </ion-text>
+        </ion-col>
+
+        <ion-col size="12" size-sm="8">
+          <ion-text class="review">
+            <p>{{review.review}}</p>
+          </ion-text>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-card-content>
+</ion-card>
+
+<ion-card *ngIf="isLoading" class="ion-text-center">
+  <ion-card-content>
+    <ion-spinner></ion-spinner>
+    <ion-text color="medium">
+      <p>Loading reviews...</p>
+    </ion-text>
+  </ion-card-content>
+</ion-card>
+
+<ion-card *ngIf="error" color="danger" class="ion-text-center">
+  <ion-card-content>
+    <ion-text color="light">
+      <p>{{error}}</p>
+    </ion-text>
+  </ion-card-content>
+</ion-card>

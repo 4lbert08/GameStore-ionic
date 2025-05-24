@@ -1,0 +1,39 @@
+<ion-header>
+  <app-main-header></app-main-header>
+</ion-header>
+
+<ion-content>
+  <app-user-nav-bar></app-user-nav-bar>
+
+  <ion-loading [isOpen]="isLoading" message="Cargando tus reseñas..."></ion-loading>
+
+  <div *ngIf="error && !isLoading" class="ion-padding">
+    <ion-card color="danger">
+      <ion-card-content>
+        <ion-text color="light">
+          <p>{{ error }}</p>
+        </ion-text>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <div *ngIf="!isLoading && !error" class="ion-padding">
+    <div *ngIf="userReviews && userReviews.length > 0">
+      <app-review-with-game-info *ngFor="let review of userReviews" [review]="review"></app-review-with-game-info>
+    </div>
+    <div *ngIf="!userReviews || userReviews.length === 0" class="no-reviews">
+      <ion-card>
+        <ion-card-content class="ion-text-center">
+          <ion-icon name="document-text-outline" size="large" color="medium"></ion-icon>
+          <ion-text color="medium">
+            <h3>No tienes reseñas disponibles.</h3>
+          </ion-text>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <app-footer></app-footer>
+</ion-footer>
