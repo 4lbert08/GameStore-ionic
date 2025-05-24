@@ -158,4 +158,4 @@ Hemos implementado Bootstrap en nuestro proyecto, siguiendo la recomendación de
 
 - **Figma**: [https://www.figma.com/design/cce85AsKYbHsWryGC4aJGa/MOCKUPS-PWM?m=auto&t=PlizMet0r5Rgm5UZ-6](#)
 - **Trello**: [https://trello.com/b/eEGWSKRv/tablero-pwm-sprint-4](#)
-- **PowerPoint**: [https://alumnosulpgc-my.sharepoint.com/:p:/g/personal/alberto_rodriguez136_alu_ulpgc_es/ESOs6h63a-FInuf2RN01HvEBbM0Iv3EO8yjkpIpmClzWrQ ](#)
+- **PowerPoint**: [https://alumnosulpgc-my.sharepoint.com/:p:/r/personal/juan_boissier101_alu_ulpgc_es/Documents/Sprint4.pptx?d=w696442a5c9804a92a5ee82613fac67e7&csf=1&web=1&e=wKYY8g](#)
