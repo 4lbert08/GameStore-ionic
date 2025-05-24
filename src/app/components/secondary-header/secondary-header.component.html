@@ -9,7 +9,7 @@
     </div>
 
     <div class="mainHeader__logo">
-      <a routerLink="/" aria-label="Home">
+      <a routerLink="" aria-label="Home">
         <img src="/assets/imgs/logo.png" alt="Logo"/>
       </a>
     </div>
@@ -27,7 +27,7 @@
         <a id="cartLink" routerLink="/cart" aria-label="View cart">
           <img id="cartIcon" src="/assets/imgs/carrito.webp" alt="Cart" />
         </a>
-        <a id="userImage" routerLink="/userSettings" aria-label="User settings">
+        <a id="userImage" routerLink="/user-settings" aria-label="User settings">
           <img *ngIf="!userData?.avatar" src="/assets/imgs/default-profile.png" alt="User avatar"/>
           <img *ngIf="userData?.avatar" [src]="userData?.avatar" alt="User avatar" style="border-radius: 50%" />
         </a>
