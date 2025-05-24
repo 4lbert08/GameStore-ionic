@@ -9,7 +9,7 @@ import {
   where,
   QueryConstraint,
   setDoc,
-  updateDoc,
+  updateDoc, addDoc,
 } from '@angular/fire/firestore';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Game } from '../../models/game';
@@ -131,6 +131,12 @@ export class FirestoreService {
       query(collection(this.firestore, 'orders'), where('userId', '==', userId)),
       { idField: 'id' }
     ) as Observable<Order[]>;
+  }
+
+
+  addReview(review: Review) {
+    const reviewsRef = collection(this.firestore, 'reviews');
+    return addDoc(reviewsRef, review);
   }
 
 }

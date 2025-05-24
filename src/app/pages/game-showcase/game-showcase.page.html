@@ -1,0 +1,117 @@
+<ion-content>
+  <app-main-header></app-main-header>
+
+  <!-- Loader -->
+  <div *ngIf="isLoading" class="container py-5 text-center">
+    <ion-spinner name="crescent" color="primary"></ion-spinner>
+  </div>
+
+  <!-- Error Display -->
+  <div *ngIf="error" class="container py-5 text-center">
+    <div class="alert alert-danger">
+      <p>{{ error }}</p>
+    </div>
+  </div>
+
+  <!-- Game Not Found -->
+  <div *ngIf="!isLoading && !error && gameNotFound" class="container py-5 text-center">
+    <div class="alert alert-warning">
+      <p>Game not Found</p>
+    </div>
+  </div>
+
+  <!-- Game Content -->
+  <div *ngIf="!isLoading && !error && game" class="container">
+
+    <!-- Game Header Section -->
+    <div class="row text-center mb-5">
+      <!-- GameCover-->
+      <div class="col-12 col-lg-8">
+        <h1 class="gameName mb-3">{{ game.name }}</h1>
+        <img [src]="game.gameCover" class="img-fluid gameCover" [alt]="game.name + ' cover'">
+      </div>
+
+      <!-- Price container -->
+      <div class="col-12 col-lg-4 d-flex justify-content-center align-items-center">
+        <div class="priceContainer p-3 text-center">
+          <img class="logoImg mb-2" src="/assets/imgs/logo.png" alt="Logo" style="width: 60px; height: auto;">
+          <p class="price mb-3">{{ game.amount }} {{ game.currency }}</p>
+          <ion-button expand="block" class="cartButton" (click)="addToCart()">Add to cart</ion-button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Description Section -->
+    <div class="row mb-5">
+      <div class="col-12 text-start">
+        <h2 class="subTitles">Description</h2>
+        <p class="text">{{ game.description }}</p>
+      </div>
+    </div>
+
+    <!-- Trailer Section -->
+    <div class="row mb-5">
+      <div class="col-12 text-start">
+        <h2 class="subTitles mb-3">Trailer</h2>
+        <div class="ratio ratio-16x9">
+          <iframe [src]="sanitizedTrailerUrl"
+                  title="Game Trailer"
+                  frameborder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen>
+          </iframe>
+        </div>
+      </div>
+    </div>
+
+    <!-- Images Section -->
+    <div class="row mb-5">
+      <div class="col-12">
+        <h2 class="subTitles mb-3">Images</h2>
+
+        <div *ngIf="game?.images?.length" class="row">
+          <div class="col-md-6 mb-4" *ngFor="let image of game.images">
+            <div class="image-container">
+              <img [src]="image" class="img-fluid rounded gameImage" [alt]="game.name + ' screenshot'">
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="!game?.images?.length" class="text-center my-4">
+          <p class="text-light">No images available</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recommended Games Section -->
+    <app-game-card-section title="Recommended" [games]="recommendedGames"></app-game-card-section>
+
+    <!-- Reviews Section -->
+    <div class="row mb-5">
+      <div class="col-12">
+        <h2 class="subTitles mb-3">Add Review</h2>
+        <div class="input-group">
+          <textarea class="form-control" aria-label="Description" [(ngModel)]="review"></textarea>
+          <span class="input-group-text p-0">
+            <ion-button id="ReviewButton" fill="clear" (click)="addReview()">add</ion-button>
+          </span>
+        </div>
+      </div>
+
+      <div class="col-12">
+        <h2 class="subTitles mb-3">Reviews</h2>
+
+        <p *ngIf="reviews.length === 0" class="text-light text-center">No reviews available</p>
+
+        <div class="reviews-container">
+          <app-review-with-user-info
+            *ngFor="let review of reviews"
+            [review]="review"
+            class="mb-3">
+          </app-review-with-user-info>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>
+<app-footer></app-footer>

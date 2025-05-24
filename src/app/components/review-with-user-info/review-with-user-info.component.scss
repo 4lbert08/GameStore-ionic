@@ -1,0 +1,40 @@
+.userReview {
+  --background: #282727;
+  border-bottom: 0.125rem solid black;
+  margin: 0;
+  --border-radius: 0;
+}
+
+.userReview ion-card-content {
+  padding: 1rem;
+}
+
+.review, .userName {
+  color: white;
+  margin: 0;
+  padding: 0;
+}
+
+.userName {
+  margin-top: 0.5rem;
+  font-weight: 500;
+}
+
+.userAvatar {
+  width: 5rem;
+  height: 5rem;
+  margin: 0 auto 0.5rem auto;
+}
+
+.userAvatar img {
+  object-fit: cover;
+}
+
+ion-grid {
+  --ion-grid-padding: 0;
+  --ion-grid-padding-xs: 0;
+  --ion-grid-padding-sm: 0;
+  --ion-grid-padding-md: 0;
+  --ion-grid-padding-lg: 0;
+  --ion-grid-padding-xl: 0;
+}
