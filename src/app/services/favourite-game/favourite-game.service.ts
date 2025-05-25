@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {
   Firestore,
   doc,
@@ -7,16 +7,19 @@ import {
   getDoc,
   collection,
   collectionData,
-  getDocs
+  getDocs, onSnapshot
 } from '@angular/fire/firestore';
 import { Game } from '../../models/game';
 import { AuthService } from '../auth/auth.service';
 import { FirestoreService } from '../firestore/firestore.service';
-import { catchError, combineLatest, map, of, switchMap } from 'rxjs';
+import {BehaviorSubject, catchError, combineLatest, map, of, switchMap} from 'rxjs';
 import { Observable } from 'rxjs';
 import { Capacitor } from '@capacitor/core';
 import { SQLiteConnection, SQLiteDBConnection, CapacitorSQLite } from '@capacitor-community/sqlite';
 import { Platform } from '@ionic/angular';
+import {User} from "firebase/auth";
+import {UserData} from "../../models/user";
+import {Auth} from "@angular/fire/auth";
 
 @Injectable({
   providedIn: 'root',
@@ -24,17 +27,48 @@ import { Platform } from '@ionic/angular';
 export class LikedGameService {
   private sqlite: SQLiteConnection;
   private db: SQLiteDBConnection | null = null;
-  private isWeb: boolean = true;
+  isWeb: boolean = true;
   private readonly DB_NAME = 'likedGamesDB';
+  private userSubject = new BehaviorSubject<User | null>(null);
+  user$: Observable<User | null> = this.userSubject.asObservable();
+  userId : String | undefined = "";
 
   constructor(
     private firestore: Firestore,
-    private auth: AuthService,
+    private authService: AuthService,
+    private auth :Auth,
     private firestoreService: FirestoreService,
     private platform: Platform
   ) {
     this.sqlite = new SQLiteConnection(CapacitorSQLite);
     this.init();
+    this.auth.onAuthStateChanged(
+      (user: User | null) => {
+        this.userId = user?.uid;
+        console.log('Estado de autenticación cambió, usuario:', user);
+        this.userSubject.next(user);
+        if (user) {
+          this.firestoreService.getUserById(user.uid).subscribe({
+            next: (userData: UserData) => {
+              console.log('Datos de Firestore cargados exitosamente:', userData);
+              this.firestoreService.setUser(userData);
+            },
+            error: (error) => {
+              console.error('Error al cargar datos de Firestore para el usuario:', error);
+              this.firestoreService.setUser(null);
+            },
+          });
+        } else {
+          console.log('No hay usuario autenticado');
+          this.firestoreService.clearUser();
+        }
+      },
+      (error) => {
+        console.error('Error en el estado de autenticación:', error);
+        this.userSubject.next(null);
+        this.firestoreService.clearUser();
+      }
+    );
   }
 
   private async init() {
@@ -45,10 +79,10 @@ export class LikedGameService {
       try {
         this.db = await this.sqlite.createConnection(
           this.DB_NAME,
-          false,               // encrypted
-          'no-encryption',     // mode
-          1,                   // version
-          false                // readonly
+          false,
+          'no-encryption',
+          1,
+          false
         );
         await this.db.open();
         await this.createTableIfNotExists();
@@ -70,16 +104,14 @@ export class LikedGameService {
   }
 
   private async syncFavoritesFromFirestore() {
-    const userId = this.auth.getCurrentUserId();
-    if (!userId || !this.db) return;
+    if (!this.userId || !this.db) return;
 
     try {
-      const likedGamesCollection = collection(this.firestore, `/users/${userId}/likedGames`);
+      const likedGamesCollection = collection(this.firestore, `/users/${this.userId}/likedGames`);
       const querySnapshot = await getDocs(likedGamesCollection);
 
       for (const docSnap of querySnapshot.docs) {
         const gameId = docSnap.id;
-        // Inserta o reemplaza en SQLite para sincronizar
         await this.db.run(`INSERT OR REPLACE INTO likedGames (id) VALUES (?)`, [gameId]);
       }
     } catch (error) {
@@ -88,11 +120,10 @@ export class LikedGameService {
   }
 
   async isGameLiked(gameId: string): Promise<boolean> {
-    const userId = this.auth.getCurrentUserId();
-    if (!userId) return false;
+    if (!this.userId) return false;
 
     if (this.isWeb) {
-      const gameDocRef = doc(this.firestore, `users/${userId}/likedGames/${gameId}`);
+      const gameDocRef = doc(this.firestore, `users/${this.userId}/likedGames/${gameId}`);
       const snapshot = await getDoc(gameDocRef);
       return snapshot.exists();
     } else if (this.db) {
@@ -102,17 +133,35 @@ export class LikedGameService {
     return false;
   }
 
+  isGameLikedRealtime(gameId: string): Observable<boolean> {
+    return new Observable<boolean>((observer) => {
+      if (!this.userId || !this.firestore) {
+        observer.next(false);
+        observer.complete();
+        return;
+      }
+
+      const gameDocRef = doc(this.firestore, `users/${this.userId}/likedGames/${gameId}`);
+
+      const unsubscribe = onSnapshot(gameDocRef, (docSnap) => {
+        observer.next(docSnap.exists());
+      }, (error) => {
+        console.error('Error in real-time favorite check:', error);
+        observer.next(false);
+      });
+    })
+  }
+
   async likeGame(gameId: string): Promise<void> {
-    const userId = this.auth.getCurrentUserId();
-    if (!userId) return;
+    if (!this.userId) return;
 
     if (this.isWeb) {
-      const gameDocRef = doc(this.firestore, `users/${userId}/likedGames/${gameId}`);
+      const gameDocRef = doc(this.firestore, `users/${this.userId}/likedGames/${gameId}`);
       await setDoc(gameDocRef, { likedAt: new Date() });
     } else if (this.db) {
       await this.db.run(`INSERT OR REPLACE INTO likedGames (id) VALUES (?)`, [gameId]);
       try {
-        const gameDocRef = doc(this.firestore, `users/${userId}/likedGames/${gameId}`);
+        const gameDocRef = doc(this.firestore, `users/${this.userId}/likedGames/${gameId}`);
         await setDoc(gameDocRef, { likedAt: new Date() });
       } catch (error) {
         console.error('Error sincronizando favorito en Firestore:', error);
@@ -121,16 +170,15 @@ export class LikedGameService {
   }
 
   async removeLikedGame(gameId: string): Promise<void> {
-    const userId = this.auth.getCurrentUserId();
-    if (!userId) return;
+    if (!this.userId) return;
 
     if (this.isWeb) {
-      const gameDocRef = doc(this.firestore, `users/${userId}/likedGames/${gameId}`);
+      const gameDocRef = doc(this.firestore, `users/${this.userId}/likedGames/${gameId}`);
       await deleteDoc(gameDocRef);
     } else if (this.db) {
       await this.db.run(`DELETE FROM likedGames WHERE id = ?`, [gameId]);
       try {
-        const gameDocRef = doc(this.firestore, `users/${userId}/likedGames/${gameId}`);
+        const gameDocRef = doc(this.firestore, `users/${this.userId}/likedGames/${gameId}`);
         await deleteDoc(gameDocRef);
       } catch (error) {
         console.error('Error sincronizando eliminación en Firestore:', error);
@@ -139,15 +187,16 @@ export class LikedGameService {
   }
 
   getLikedGames(): Observable<Game[]> {
-    const userId = this.auth.getCurrentUserId();
-    if (!userId) return of([]);
-
     if (this.isWeb) {
-      const likedGamesCollection = collection(this.firestore, `/users/${userId}/likedGames`);
+      const likedGamesCollection = collection(this.firestore, `/users/${this.userId}/likedGames`);
 
       return collectionData(likedGamesCollection, { idField: 'id' }).pipe(
         switchMap(likedGames => {
           const gameIds = likedGames.map(item => item.id);
+          if (gameIds.length === 0) {
+            return of([]);
+          }
+
           const gameObservables = gameIds.map(id => this.firestoreService.getGameById(id));
           return combineLatest(gameObservables).pipe(
             map(games => games.filter(game => game !== null))
@@ -163,6 +212,11 @@ export class LikedGameService {
         this.db?.query(`SELECT id FROM likedGames`)
           .then(res => {
             const gameIds = res.values?.map(row => row.id) || [];
+            if (gameIds.length === 0) {
+              subscriber.next([]);
+              return;
+            }
+
             const gameObservables = gameIds.map(id => this.firestoreService.getGameById(id));
             combineLatest(gameObservables).pipe(
               map(games => games.filter(game => game !== null))

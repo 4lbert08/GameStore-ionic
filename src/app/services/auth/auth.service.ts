@@ -4,6 +4,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import {FirestoreService} from "../firestore/firestore.service";
 import {Auth} from "@angular/fire/auth";
+import {UserData} from "../../models/user";
 
 @Injectable({
   providedIn: 'root',
@@ -15,10 +16,32 @@ export class AuthService {
   private firestore = inject(FirestoreService);
 
   constructor() {
-    onAuthStateChanged(this.auth, (user) => {
-      console.log('Auth state changed:', user);
-      this.userSubject.next(user);
-    });
+    this.auth.onAuthStateChanged(
+      (user: User | null) => {
+        console.log('Estado de autenticación cambió, usuario:', user);
+        this.userSubject.next(user);
+        if (user) {
+          this.firestore.getUserById(user.uid).subscribe({
+            next: (userData: UserData) => {
+              console.log('Datos de Firestore cargados exitosamente:', userData);
+              this.firestore.setUser(userData);
+            },
+            error: (error) => {
+              console.error('Error al cargar datos de Firestore para el usuario:', error);
+              this.firestore.setUser(null);
+            },
+          });
+        } else {
+          console.log('No hay usuario autenticado');
+          this.firestore.clearUser();
+        }
+      },
+      (error) => {
+        console.error('Error en el estado de autenticación:', error);
+        this.userSubject.next(null);
+        this.firestore.clearUser();
+      }
+    );
   }
 
   async login(email: string, password: string): Promise<User | null> {

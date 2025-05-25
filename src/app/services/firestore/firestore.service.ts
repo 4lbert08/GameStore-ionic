@@ -19,6 +19,7 @@ import { UserData } from '../../models/user';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import {Order} from "../../models/order";
 
+
 @Injectable({
   providedIn: 'root',
 })
@@ -137,6 +138,16 @@ export class FirestoreService {
   addReview(review: Review) {
     const reviewsRef = collection(this.firestore, 'reviews');
     return addDoc(reviewsRef, review);
+  }
+
+  setUser(user: UserData | null) {
+    console.log('Guardando datos del usuario en el store:', user);
+    this.userSubject.next(user);
+  }
+
+  clearUser() {
+    console.log('Limpiando datos del usuario en el store');
+    this.userSubject.next(null);
   }
 
 }

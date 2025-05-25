@@ -37,36 +37,32 @@ export class GameCardComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit(): Promise<void> {
-    console.log('ngOnInit started for game:', this.gameId);
-
-    this.authService.getCurrentUser().pipe(takeUntil(this.destroy$)).subscribe(async (authUser) => {
-      console.log('Auth user:', authUser);
-
+    this.authService.getCurrentUser().pipe(takeUntil(this.destroy$)).subscribe((authUser) => {
       if (!authUser) {
-        console.log('No user authenticated, setting isFavorite to false');
         this.isFavorite = false;
         this.cdr.detectChanges();
         return;
       }
 
-      this.firestore.user$.pipe(takeUntil(this.destroy$)).subscribe(async (userData) => {
-        console.log('User$ emitted:', userData);
+      this.firestore.user$.pipe(takeUntil(this.destroy$)).subscribe((userData) => {
         this.user = userData;
 
         if (this.gameId) {
-          console.log('Checking isGameLiked for game:', this.gameId);
-          this.isFavorite = null;
-          try {
-            this.isFavorite = await this.likedGameService.isGameLiked(this.gameId);
-            console.log(`Game ${this.gameName} (ID: ${this.gameId}) isFavorite:`, this.isFavorite);
-            this.cdr.detectChanges();
-          } catch (err) {
-            console.error('Error checking if game is liked:', err);
-            this.isFavorite = false;
-            this.cdr.detectChanges();
+          if (this.likedGameService.isWeb) {
+            this.likedGameService
+              .isGameLikedRealtime(this.gameId)
+              .pipe(takeUntil(this.destroy$))
+              .subscribe((liked) => {
+                this.isFavorite = liked;
+                this.cdr.detectChanges();
+              });
+          } else {
+            this.likedGameService.isGameLiked(this.gameId).then((liked) => {
+              this.isFavorite = liked;
+              this.cdr.detectChanges();
+            });
           }
         } else {
-          console.warn('No gameId provided for GameCardComponent');
           this.isFavorite = false;
           this.cdr.detectChanges();
         }
@@ -116,13 +112,9 @@ export class GameCardComponent implements OnInit, OnDestroy {
       try {
         if (this.isFavorite) {
           await this.likedGameService.removeLikedGame(this.gameId);
-          this.isFavorite = false;
         } else {
           await this.likedGameService.likeGame(this.gameId);
-          this.isFavorite = true;
         }
-        console.log(`${this.gameName} ${this.isFavorite ? 'added to' : 'removed from'} favorites`);
-        this.cdr.detectChanges();
       } catch (err) {
         console.error('Error toggling favorite:', err);
         const alert = await this.alertController.create({
@@ -132,8 +124,6 @@ export class GameCardComponent implements OnInit, OnDestroy {
         });
         await alert.present();
       }
-    } else {
-      console.warn('Cannot toggle favorite: No gameId provided');
     }
   }
 }
