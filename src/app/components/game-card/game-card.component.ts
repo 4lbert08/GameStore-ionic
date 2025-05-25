@@ -6,7 +6,7 @@ import { LikedGameService } from '../../services/favourite-game/favourite-game.s
 import { FirestoreService } from '../../services/firestore/firestore.service';
 import { AuthService } from '../../services/auth/auth.service';
 import { UserData } from '../../models/user';
-import { Subject, takeUntil, Observable } from 'rxjs';
+import { Subject, takeUntil, Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-game-card',
@@ -20,9 +20,13 @@ export class GameCardComponent implements OnInit, OnDestroy {
   @Input() gameCover: string = '';
   @Input() gameName: string = '';
   @Input() gamePrice: string = '';
+
   user: UserData | null = null;
   isFavorite: boolean | null = null;
+  isLoading: boolean = false;
+
   private destroy$ = new Subject<void>();
+  private subscriptions = new Subscription();
   isAuthenticated$: Observable<boolean>;
 
   constructor(
@@ -37,42 +41,70 @@ export class GameCardComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit(): Promise<void> {
-    this.authService.getCurrentUser().pipe(takeUntil(this.destroy$)).subscribe((authUser) => {
-      if (!authUser) {
-        this.isFavorite = false;
-        this.cdr.detectChanges();
-        return;
-      }
-
-      this.firestore.user$.pipe(takeUntil(this.destroy$)).subscribe((userData) => {
-        this.user = userData;
-
-        if (this.gameId) {
-          if (this.likedGameService.isWeb) {
-            this.likedGameService
-              .isGameLikedRealtime(this.gameId)
-              .pipe(takeUntil(this.destroy$))
-              .subscribe((liked) => {
-                this.isFavorite = liked;
-                this.cdr.detectChanges();
-              });
-          } else {
-            this.likedGameService.isGameLiked(this.gameId).then((liked) => {
-              this.isFavorite = liked;
-              this.cdr.detectChanges();
-            });
+    this.subscriptions.add(
+      this.likedGameService.favoritesChanged$
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(change => {
+          if (change.gameId === this.gameId) {
+            this.isFavorite = change.isLiked;
+            this.cdr.detectChanges();
           }
-        } else {
+        })
+    );
+
+    this.authService.getCurrentUser()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((authUser) => {
+        if (!authUser) {
           this.isFavorite = false;
           this.cdr.detectChanges();
+          return;
         }
+
+        this.firestore.user$
+          .pipe(takeUntil(this.destroy$))
+          .subscribe((userData) => {
+            this.user = userData;
+
+            if (this.gameId) {
+              this.checkFavoriteStatus();
+            } else {
+              this.isFavorite = false;
+              this.cdr.detectChanges();
+            }
+          });
       });
-    });
   }
 
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+    this.subscriptions.unsubscribe();
+  }
+
+  private async checkFavoriteStatus(): Promise<void> {
+    if (!this.gameId) return;
+
+    try {
+      if (this.likedGameService.isWeb) {
+        this.subscriptions.add(
+          this.likedGameService
+            .isGameLikedRealtime(this.gameId)
+            .pipe(takeUntil(this.destroy$))
+            .subscribe((liked) => {
+              this.isFavorite = liked;
+              this.cdr.detectChanges();
+            })
+        );
+      } else {
+        this.isFavorite = await this.likedGameService.isGameLiked(this.gameId);
+        this.cdr.detectChanges();
+      }
+    } catch (error) {
+      console.error('Error checking favorite status:', error);
+      this.isFavorite = false;
+      this.cdr.detectChanges();
+    }
   }
 
   onCardClick(): void {
@@ -85,6 +117,8 @@ export class GameCardComponent implements OnInit, OnDestroy {
 
   async toggleFavorite(event: Event): Promise<void> {
     event.stopPropagation();
+
+    if (this.isLoading) return;
 
     const isAuthenticated = await new Promise<boolean>((resolve) => {
       this.isAuthenticated$.pipe(takeUntil(this.destroy$)).subscribe((auth) => resolve(auth));
@@ -108,22 +142,36 @@ export class GameCardComponent implements OnInit, OnDestroy {
       return;
     }
 
-    if (this.gameId) {
+    if (!this.gameId) return;
+
+    this.isLoading = true;
+
+    try {
+      const newStatus = await this.likedGameService.toggleGameLike(this.gameId);
+
+      this.isFavorite = newStatus;
+      this.cdr.detectChanges();
+
+    } catch (err) {
+      console.error('Error toggling favorite:', err);
+
       try {
-        if (this.isFavorite) {
-          await this.likedGameService.removeLikedGame(this.gameId);
-        } else {
-          await this.likedGameService.likeGame(this.gameId);
-        }
-      } catch (err) {
-        console.error('Error toggling favorite:', err);
-        const alert = await this.alertController.create({
-          header: 'Error',
-          message: 'No se pudo actualizar los favoritos. Intenta de nuevo.',
-          buttons: ['OK'],
-        });
-        await alert.present();
+        this.isFavorite = await this.likedGameService.isGameLiked(this.gameId);
+        this.cdr.detectChanges();
+      } catch (revertError) {
+        console.error('Error reverting state:', revertError);
       }
+
+      const alert = await this.alertController.create({
+        header: 'Error',
+        message: 'No se pudo actualizar los favoritos. Intenta de nuevo.',
+        buttons: ['OK'],
+      });
+      await alert.present();
+
+    } finally {
+      this.isLoading = false;
+      this.cdr.detectChanges();
     }
   }
 }

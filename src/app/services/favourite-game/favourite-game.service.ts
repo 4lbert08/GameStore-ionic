@@ -12,7 +12,7 @@ import {
 import { Game } from '../../models/game';
 import { AuthService } from '../auth/auth.service';
 import { FirestoreService } from '../firestore/firestore.service';
-import {BehaviorSubject, catchError, combineLatest, map, of, switchMap} from 'rxjs';
+import {BehaviorSubject, catchError, combineLatest, map, of, switchMap, Subject} from 'rxjs';
 import { Observable } from 'rxjs';
 import { Capacitor } from '@capacitor/core';
 import { SQLiteConnection, SQLiteDBConnection, CapacitorSQLite } from '@capacitor-community/sqlite';
@@ -32,6 +32,11 @@ export class LikedGameService {
   private userSubject = new BehaviorSubject<User | null>(null);
   user$: Observable<User | null> = this.userSubject.asObservable();
   userId : String | undefined = "";
+  private favoritesChangedSubject = new Subject<{gameId: string, isLiked: boolean}>();
+  public favoritesChanged$ = this.favoritesChangedSubject.asObservable();
+
+  private likedGamesSubject = new BehaviorSubject<Game[]>([]);
+  public likedGames$ = this.likedGamesSubject.asObservable();
 
   constructor(
     private firestore: Firestore,
@@ -52,6 +57,7 @@ export class LikedGameService {
             next: (userData: UserData) => {
               console.log('Datos de Firestore cargados exitosamente:', userData);
               this.firestoreService.setUser(userData);
+              this.loadLikedGames();
             },
             error: (error) => {
               console.error('Error al cargar datos de Firestore para el usuario:', error);
@@ -61,6 +67,7 @@ export class LikedGameService {
         } else {
           console.log('No hay usuario autenticado');
           this.firestoreService.clearUser();
+          this.likedGamesSubject.next([]);
         }
       },
       (error) => {
@@ -149,41 +156,75 @@ export class LikedGameService {
         console.error('Error in real-time favorite check:', error);
         observer.next(false);
       });
-    })
+
+      return unsubscribe;
+    });
   }
 
   async likeGame(gameId: string): Promise<void> {
     if (!this.userId) return;
 
-    if (this.isWeb) {
-      const gameDocRef = doc(this.firestore, `users/${this.userId}/likedGames/${gameId}`);
-      await setDoc(gameDocRef, { likedAt: new Date() });
-    } else if (this.db) {
-      await this.db.run(`INSERT OR REPLACE INTO likedGames (id) VALUES (?)`, [gameId]);
-      try {
+    try {
+      if (this.isWeb) {
         const gameDocRef = doc(this.firestore, `users/${this.userId}/likedGames/${gameId}`);
         await setDoc(gameDocRef, { likedAt: new Date() });
-      } catch (error) {
-        console.error('Error sincronizando favorito en Firestore:', error);
+      } else if (this.db) {
+        await this.db.run(`INSERT OR REPLACE INTO likedGames (id) VALUES (?)`, [gameId]);
+        try {
+          const gameDocRef = doc(this.firestore, `users/${this.userId}/likedGames/${gameId}`);
+          await setDoc(gameDocRef, { likedAt: new Date() });
+        } catch (error) {
+          console.error('Error sincronizando favorito en Firestore:', error);
+        }
       }
+
+      this.favoritesChangedSubject.next({gameId, isLiked: true});
+
+      this.loadLikedGames();
+
+    } catch (error) {
+      console.error('Error al agregar favorito:', error);
+      throw error;
     }
   }
 
   async removeLikedGame(gameId: string): Promise<void> {
     if (!this.userId) return;
 
-    if (this.isWeb) {
-      const gameDocRef = doc(this.firestore, `users/${this.userId}/likedGames/${gameId}`);
-      await deleteDoc(gameDocRef);
-    } else if (this.db) {
-      await this.db.run(`DELETE FROM likedGames WHERE id = ?`, [gameId]);
-      try {
+    try {
+      if (this.isWeb) {
         const gameDocRef = doc(this.firestore, `users/${this.userId}/likedGames/${gameId}`);
         await deleteDoc(gameDocRef);
-      } catch (error) {
-        console.error('Error sincronizando eliminación en Firestore:', error);
+      } else if (this.db) {
+        await this.db.run(`DELETE FROM likedGames WHERE id = ?`, [gameId]);
+        try {
+          const gameDocRef = doc(this.firestore, `users/${this.userId}/likedGames/${gameId}`);
+          await deleteDoc(gameDocRef);
+        } catch (error) {
+          console.error('Error sincronizando eliminación en Firestore:', error);
+        }
       }
+
+      this.favoritesChangedSubject.next({gameId, isLiked: false});
+
+      this.loadLikedGames();
+
+    } catch (error) {
+      console.error('Error al quitar favorito:', error);
+      throw error;
     }
+  }
+
+  private loadLikedGames(): void {
+    this.getLikedGames().subscribe({
+      next: (games) => {
+        this.likedGamesSubject.next(games);
+      },
+      error: (error) => {
+        console.error('Error cargando favoritos:', error);
+        this.likedGamesSubject.next([]);
+      }
+    });
   }
 
   getLikedGames(): Observable<Game[]> {
@@ -233,6 +274,18 @@ export class LikedGameService {
             subscriber.next([]);
           });
       });
+    }
+  }
+
+  async toggleGameLike(gameId: string): Promise<boolean> {
+    const isCurrentlyLiked = await this.isGameLiked(gameId);
+
+    if (isCurrentlyLiked) {
+      await this.removeLikedGame(gameId);
+      return false;
+    } else {
+      await this.likeGame(gameId);
+      return true;
     }
   }
 }
