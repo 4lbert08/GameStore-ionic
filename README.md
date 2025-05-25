@@ -92,7 +92,7 @@ Estas son las páginas de nuestra web. Estas carpetas contienen: name.html, name
 | ---------------  | ---------------------------------- |
 | `landing-page`  | Página de inicio                   |
 | `advanced-search-page`    | Página de busqueda avanzada                  |
-| `game-showcae-page`    | Página del título seleccionado                   |
+| `game-showcase-page`    | Página del título seleccionado                   |
 | `view-more-section-page` | Página de ver más                   |
 | `login-page`    | Página de login de usuario                   |
 | `forgot-password-page` | Página de contraseña olvidada                   |
